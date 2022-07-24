@@ -24,7 +24,6 @@
   .color-card--inner {
     display: grid;
     grid-template-columns: max-content 1fr;
-    grid-auto-rows: 1fr;
     gap: 1rem;
     margin-bottom: 3rem;
   }
@@ -88,13 +87,16 @@
   .color-card--button:not(:disabled):active {
     transform: translateY(0.125rem);
   }
+
 </style>
 
 <form class="color-card" id="card-form">
   <h1 class="color-card--title">Generate Color Card</h1>
   <div class="color-card--inner">
+    <!-- Color Nmae -->
     <label class="color-card--label" for="color-name">Color Name</label>
     <input class="color-card--input" id="color-name" type="text">
+    <!-- Color Picker -->
     <label class="color-card--label" for="color">Color</label>
     <div class="color-card--group">
       <input class="color-card--color" id="color" type="color" value="#000000">
@@ -102,6 +104,16 @@
       <input class="color-card--input" id="color-text" type="text" title="Color code must be a valid hex code Ex: #000000"
              value="#000000" required pattern="^#[a-fA-F0-9]{6}$" minlength="7" maxlength="7">
     </div>
+    <!-- Card Size Selection -->
+    <label class="color-card--label" for="card-size">Card Size</label>
+    <select class="color-card--select" name="card-size" id="card-size">
+      <option value="sm">Small</option>
+      <option value="md" selected>Medium</option>
+      <option value="lg">Large</option>
+      <option value="xl">X-Large</option>
+      <option value="xxl">XX-Large</option>
+    </select>
+    <!-- Use Color Api? -->
     <label class="color-card--label" for="color-api">Use Color API?</label>
     <input class="color-card--check" id="color-api" type="checkbox" value="false">
   </div>
@@ -115,6 +127,7 @@
   const color = document.getElementById("color");
   const colorName = document.getElementById("color-name");
   const colorText = document.getElementById("color-text");
+  const cardSize = document.getElementById("card-size");
   const colorAPI = document.getElementById("color-api");
   const createBtn = document.getElementById('create');
   const cancelBtn = document.getElementById('cancel');
@@ -136,6 +149,12 @@
     }
   });
 
+  cardSize.addEventListener("change", (e) => {
+    const size = e.target.value;
+    console.dir(size);
+    cardSize.value = size;
+  });
+
   // updates value of color API checkbox
   colorAPI.addEventListener("click", (e) => {
     const isChecked = e.target.checked;
@@ -153,6 +172,7 @@
         color: colorText.value.toLowerCase(),
         colorName: colorName.value,
         useAPI: colorAPI.value,
+        size: cardSize.value,
         data: null
       };
 
