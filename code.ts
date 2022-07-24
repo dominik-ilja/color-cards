@@ -37,7 +37,7 @@ const SIZING = {
     },
     innerContainer: {
       itemSpacing: 3,
-      padding: [14, 14, 56, 14],
+      padding: [14, 14, 59, 14],
     },
     swatch: {
       size: 192
@@ -56,7 +56,7 @@ const SIZING = {
     },
     innerContainer: {
       itemSpacing: 5,
-      padding: [21, 21, 84, 21],
+      padding: [21, 21, 85, 21],
     },
     swatch: {
       size: 288
@@ -75,7 +75,7 @@ const SIZING = {
     },
     innerContainer: {
       itemSpacing: 5,
-      padding: [28, 28, 112, 28],
+      padding: [28, 28, 115, 28],
     },
     swatch: {
       size: 384
@@ -94,7 +94,7 @@ const SIZING = {
     },
     innerContainer: {
       itemSpacing: 8,
-      padding: [35, 35, 140, 35],
+      padding: [35, 35, 127, 35],
     },
     swatch: {
       size: 480
