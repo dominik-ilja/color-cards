@@ -2,8 +2,11 @@
 
 ![](assets/Color%20Cards%20Art.png)
 
+
 ## Description
 Add color cards to your figma designs. This allows you to build a pallete or showcase colors for inspiration. You can generate custom names using "The Color API" for easily adding your new colors to your library.
+
+![](assets/color-card-plugin.png)
 
 ## How to Use
 
