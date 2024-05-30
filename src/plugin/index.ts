@@ -7,116 +7,113 @@ const RGB = { r: null, g: null, b: null };
 const SIZING = {
   sm: {
     colorName: {
-      size: 10
+      size: 10,
     },
     colors: {
-      size: 6
+      size: 6,
     },
     frame: {
       itemSpacing: 0,
-      padding: [14, 10, 14, 10]
+      padding: [14, 10, 14, 10],
     },
     innerContainer: {
       itemSpacing: 1,
       padding: [7, 7, 28, 7],
     },
     swatch: {
-      size: 96
-    }
+      size: 96,
+    },
   },
   md: {
     colorName: {
-      size: 16
+      size: 16,
     },
     colors: {
-      size: 12
+      size: 12,
     },
     frame: {
       itemSpacing: 0,
-      padding: [28, 20, 28, 20]
+      padding: [28, 20, 28, 20],
     },
     innerContainer: {
       itemSpacing: 3,
       padding: [14, 14, 59, 14],
     },
     swatch: {
-      size: 192
-    }
+      size: 192,
+    },
   },
   lg: {
     colorName: {
-      size: 24
+      size: 24,
     },
     colors: {
-      size: 18
+      size: 18,
     },
     frame: {
       itemSpacing: 0,
-      padding: [42, 30, 42, 30]
+      padding: [42, 30, 42, 30],
     },
     innerContainer: {
       itemSpacing: 5,
       padding: [21, 21, 85, 21],
     },
     swatch: {
-      size: 288
-    }
+      size: 288,
+    },
   },
   xl: {
     colorName: {
-      size: 36
+      size: 36,
     },
     colors: {
-      size: 24
+      size: 24,
     },
     frame: {
       itemSpacing: 0,
-      padding: [56, 40, 56, 40]
+      padding: [56, 40, 56, 40],
     },
     innerContainer: {
       itemSpacing: 5,
       padding: [28, 28, 115, 28],
     },
     swatch: {
-      size: 384
-    }
+      size: 384,
+    },
   },
   xxl: {
     colorName: {
-      size: 48
+      size: 48,
     },
     colors: {
-      size: 32
+      size: 32,
     },
     frame: {
       itemSpacing: 0,
-      padding: [70, 50, 70, 50]
+      padding: [70, 50, 70, 50],
     },
     innerContainer: {
       itemSpacing: 8,
       padding: [35, 35, 127, 35],
     },
     swatch: {
-      size: 480
-    }
+      size: 480,
+    },
   },
 };
 let COLOR_NAME = null;
 let HEX = null;
 let SIZE = null;
 
-
-
 function clone(val: object) {
   const type = typeof val;
   if (val === null) {
     return null;
-  } else if (type === 'undefined' || type === 'number' ||
-    type === 'string' || type === 'boolean') {
+  } else if (type === "undefined" || type === "number" || type === "string" || type === "boolean") {
     return val;
-  } else if (type === 'object') {
+  } else if (type === "object") {
     if (val instanceof Array) {
-      return val.map(x => clone(x));
+      return val.map((x) => clone(x));
     } else if (val instanceof Uint8Array) {
       return new Uint8Array(val);
     } else {
@@ -127,7 +124,7 @@ function clone(val: object) {
       return o;
     }
   }
-  throw 'unknown';
+  throw "unknown";
 }
 
 async function createCard() {
@@ -139,9 +136,8 @@ async function createCard() {
 
   innerContainer.appendChild(swatch);
   innerContainer.appendChild(colorName);
-  colors.forEach(color => innerContainer.appendChild(color));
+  colors.forEach((color) => innerContainer.appendChild(color));
   frame.appendChild(innerContainer);
-
 }
 
 async function createColorElements() {
@@ -149,51 +145,51 @@ async function createColorElements() {
   const colors = [
     {
       code: "hex",
-      value: HEX
+      value: HEX,
     },
     {
       code: "hsl",
-      value: HSL
+      value: HSL,
     },
     {
       code: "rgb",
-      value: RGB
-    }
+      value: RGB,
+    },
   ];
   const textColor = "#000000";
   // console.log(colors);
 
   await figma.loadFontAsync({ family: FONT_SECONDARY, style: "Regular" });
 
-  const els = await Promise.all(colors.map(async ({ code, value }) => {
-    const colorName = figma.createText();
+  const els = await Promise.all(
+    colors.map(async ({ code, value }) => {
+      const colorName = figma.createText();
 
+      colorName.autoRename = true;
+      colorName.fontName = { family: FONT_SECONDARY, style: "Regular" };
+      colorName.fontSize = size;
+      setFills(colorName, textColor);
 
-    colorName.autoRename = true;
-    colorName.fontName = { family: FONT_SECONDARY, style: "Regular" };
-    colorName.fontSize = size;
-    setFills(colorName, textColor);
+      switch (code) {
+        case "rgb":
+          colorName.characters = `${code.toUpperCase()} : ${value.r}, ${value.b}, ${value.g}`;
+          break;
 
+        case "hsl":
+          colorName.characters = `${code.toUpperCase()} : ${value.h}, ${value.s}, ${value.l}`;
+          break;
 
-    switch (code) {
-      case "rgb":
-        colorName.characters = `${code.toUpperCase()} : ${value.r}, ${value.b}, ${value.g}`;
-        break;
+        case "hex":
+          colorName.characters = `${code.toUpperCase()} : ${value}`;
+          break;
 
-      case "hsl":
-        colorName.characters = `${code.toUpperCase()} : ${value.h}, ${value.s}, ${value.l}`;
-        break;
+        default:
+          throw new Error("We shouldn't be here");
+      }
 
-      case "hex":
-        colorName.characters = `${code.toUpperCase()} : ${value}`;
-        break;
-
-      default:
-        throw new Error("We shouldn't be here");
-    }
-
-    return colorName;
-  }));
+      return colorName;
+    })
+  );
 
   // console.log("els: ", els);
 
@@ -269,14 +265,15 @@ function generateFigmaRGB(hex: string) {
   return {
     r: r / 255,
     g: g / 255,
-    b: b / 255
-
+    b: b / 255,
   };
 }
 
 function hexToHSL(hex: string) {
   // Convert hex to RGB first
-  let rSTR = "0", gSTR = "0", bSTR = "0";
+  let rSTR = "0",
+    gSTR = "0",
+    bSTR = "0";
   if (hex.length == 4) {
     rSTR = "0x" + hex[1] + hex[1];
     gSTR = "0x" + hex[2] + hex[2];
@@ -297,19 +294,14 @@ function hexToHSL(hex: string) {
     s = 0,
     l = 0;
 
-  if (delta == 0)
-    h = 0;
-  else if (cmax == r)
-    h = ((g - b) / delta) % 6;
-  else if (cmax == g)
-    h = (b - r) / delta + 2;
-  else
-    h = (r - g) / delta + 4;
+  if (delta == 0) h = 0;
+  else if (cmax == r) h = ((g - b) / delta) % 6;
+  else if (cmax == g) h = (b - r) / delta + 2;
+  else h = (r - g) / delta + 4;
 
   h = Math.round(h * 60);
 
-  if (h < 0)
-    h += 360;
+  if (h < 0) h += 360;
 
   l = (cmax + cmin) / 2;
   s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
@@ -322,11 +314,13 @@ function hexToHSL(hex: string) {
 
 function hexToRgb(hex: string) {
   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return result ? {
-    r: parseInt(result[1], 16),
-    g: parseInt(result[2], 16),
-    b: parseInt(result[3], 16)
-  } : null;
+  return result
+    ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16),
+      }
+    : null;
 }
 
 function init(color: string, name: string, size: string) {
@@ -357,14 +351,12 @@ function setFills(el, hex = null) {
 
   const fills = clone(el.fills);
 
-
   fills[0].color.r = r;
   fills[0].color.b = b;
   fills[0].color.g = g;
   el.fills = fills;
   // console.log(fills);
   // console.log("el: ", el.name);
-
 }
 
 function setHex(color: string) {
@@ -390,7 +382,6 @@ function setHex(color: string) {
 
   //   }
   // }
-
 }
 
 function setHSL(color: string) {
@@ -419,7 +410,6 @@ function setRGB(color: string) {
 figma.showUI(__html__, { width: 400, height: 335 });
 
 figma.ui.onmessage = ({ type, message }) => {
-
   if (type === "generate") {
     let { color, colorName, size, ...other } = message;
 
@@ -431,11 +421,8 @@ figma.ui.onmessage = ({ type, message }) => {
     init(color, colorName, size);
     createCard();
 
-
     figma.notify("Generated Card");
-  }
-  else {
+  } else {
     figma.closePlugin("Plugin Closed");
   }
-
 };
