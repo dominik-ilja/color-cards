@@ -1,10 +1,20 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "lib": ["es6"],
-    "typeRoots": [
-      "./node_modules/@types",
-      "./node_modules/@figma"
-    ]
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "jsx": "react",
+    "allowJs": true,
+    "lib": ["ES6", "DOM"],
+    "moduleResolution": "Node",
+    "alwaysStrict": true,
+    "resolveJsonModule": true,
+    "module": "ES2015",
+    "noUnusedLocals": false,
+    "outDir": "./dist",
+    "removeComments": true,
+    "strict": true,
+    "target": "ES6",
+    "typeRoots": ["./node_modules/@types", "./node_modules/@figma"]
   }
 }

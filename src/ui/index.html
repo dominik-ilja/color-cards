@@ -1,4 +1,4 @@
-<style>
+<!-- <style>
   :root {
     --color-primary: #30a3ff;
     --color-outline: #45a9f9;
@@ -87,22 +87,30 @@
   .color-card--button:not(:disabled):active {
     transform: translateY(0.125rem);
   }
-
-</style>
+</style> -->
 
 <form class="color-card" id="card-form">
   <h1 class="color-card--title">Generate Color Card</h1>
   <div class="color-card--inner">
     <!-- Color Nmae -->
     <label class="color-card--label" for="color-name">Color Name</label>
-    <input class="color-card--input" id="color-name" type="text">
+    <input class="color-card--input" id="color-name" type="text" />
     <!-- Color Picker -->
     <label class="color-card--label" for="color">Color</label>
     <div class="color-card--group">
-      <input class="color-card--color" id="color" type="color" value="#000000">
+      <input class="color-card--color" id="color" type="color" value="#000000" />
       <!-- Client Side Validation of Input -->
-      <input class="color-card--input" id="color-text" type="text" title="Color code must be a valid hex code Ex: #000000"
-             value="#000000" required pattern="^#[a-fA-F0-9]{6}$" minlength="7" maxlength="7">
+      <input
+        class="color-card--input"
+        id="color-text"
+        type="text"
+        title="Color code must be a valid hex code Ex: #000000"
+        value="#000000"
+        required
+        pattern="^#[a-fA-F0-9]{6}$"
+        minlength="7"
+        maxlength="7"
+      />
     </div>
     <!-- Card Size Selection -->
     <label class="color-card--label" for="card-size">Card Size</label>
@@ -115,7 +123,7 @@
     </select>
     <!-- Use Color Api? -->
     <label class="color-card--label" for="color-api">Use Color API?</label>
-    <input class="color-card--check" id="color-api" type="checkbox" value="false">
+    <input class="color-card--check" id="color-api" type="checkbox" value="false" />
   </div>
   <button class="color-card--button" id="create">Create Card</button>
   <button class="color-card--button" id="cancel">Cancel</button>
@@ -123,14 +131,14 @@
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
-  const form = document.getElementById('card-form');
+  const form = document.getElementById("card-form");
   const color = document.getElementById("color");
   const colorName = document.getElementById("color-name");
   const colorText = document.getElementById("color-text");
   const cardSize = document.getElementById("card-size");
   const colorAPI = document.getElementById("color-api");
-  const createBtn = document.getElementById('create');
-  const cancelBtn = document.getElementById('cancel');
+  const createBtn = document.getElementById("create");
+  const cancelBtn = document.getElementById("cancel");
 
   // Prevents Form from refreshing page
   form.onsubmit = (e) => e.preventDefault();
@@ -155,25 +163,24 @@
     cardSize.value = size;
   });
 
+  // Completed
   // updates value of color API checkbox
-  colorAPI.addEventListener("click", (e) => {
-    const isChecked = e.target.checked;
-    colorAPI.value = isChecked;
-  });
+  // colorAPI.addEventListener("click", (e) => {
+  //   const isChecked = e.target.checked;
+  //   colorAPI.value = isChecked;
+  // });
 
   // will send message to create color card on valid input
   createBtn.onclick = async (e) => {
-
     // prevent message from being sent if hex value is invalid
     if (colorText.checkValidity()) {
-
       // default message values
       const message = {
         color: colorText.value.toLowerCase(),
         colorName: colorName.value,
         useAPI: colorAPI.value,
         size: cardSize.value,
-        data: null
+        data: null,
       };
 
       if (message.useAPI === "true") {
@@ -187,26 +194,26 @@
           message.color = data.hex.value.toLowerCase();
           message.colorName = data.name.value;
           message.data = data;
-        }
-        catch (error) {
+        } catch (error) {
           console.dir(error);
           message.data = null;
         }
       }
 
-      parent.postMessage({
-        pluginMessage: {
-          type: 'generate',
-          message
-        }
-      }, '*');
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: "generate",
+            message,
+          },
+        },
+        "*"
+      );
     }
-
   };
 
   // closes plugin
   cancelBtn.onclick = () => {
-    parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*');
-  }
-
+    parent.postMessage({ pluginMessage: { type: "cancel" } }, "*");
+  };
 </script>
