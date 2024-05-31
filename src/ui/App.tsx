@@ -6,7 +6,7 @@ type size = "sm" | "md" | "lg" | "xl" | "xxl";
 export default function App() {
   const [isApiSelected, setIsApiSelected] = useState(false);
   const [cardSize, setCardSize] = useState<size>("md");
-  const [color, setColor] = useState("#000000");
+  const [color, setColor] = useState("#4f46e5");
   const [colorName, setColorName] = useState("");
 
   useEffect(() => {
@@ -57,87 +57,103 @@ export default function App() {
   }
 
   return (
-    <form className="color-card" id="card-form" onSubmit={(e) => e.preventDefault()}>
-      <h1 className="color-card--title">Generate Color Card</h1>
-      <div className="color-card--inner">
-        {/* Color Name */}
-        <label className="color-card--label" htmlFor="color-name">
-          Color Name
-        </label>
-        <input
-          className="color-card--input"
-          id="color-name"
-          type="text"
-          value={colorName}
-          onChange={(e) => setColorName(e.target.value)}
-        />
-
-        {/* Color Picker */}
-        <label className="color-card--label" htmlFor="color">
-          Color
-        </label>
-
-        <div className="color-card--group">
-          <input
-            className="color-card--color"
-            id="color"
-            type="color"
-            value={color}
-            onChange={(e) => {
-              setColor(e.target.value.toLowerCase());
-            }}
-          />
-          {/* Client Side Validation of Input */}
-          <input
-            className="color-card--input"
-            id="color-text"
-            type="text"
-            title="Color code must be a valid hex code Ex: #000000"
-            value={color}
-            onChange={(e) => setColor(e.target.value)}
-            required
-            pattern="^#[a-fA-F0-9]{6}$"
-            minLength={7}
-            maxLength={7}
-          />
+    <form onSubmit={(e) => e.preventDefault()}>
+      <div className="flex flex-col gap-y-4 mb-8">
+        {/* Color */}
+        <div>
+          <label className="label mb-2" htmlFor="color">
+            Color
+          </label>
+          <div className="flex items-center gap-x-1 w-full">
+            <div className="color-picker-wrapper">
+              <input
+                className="color-picker"
+                id="color"
+                type="color"
+                value={color}
+                onChange={(e) => {
+                  setColor(e.target.value.toLowerCase());
+                }}
+              />
+            </div>
+            {/* Client Side Validation of Input */}
+            <input
+              className="input flex-1"
+              id="color-text"
+              type="text"
+              title="Color code must be a valid hex code Ex: #000000"
+              value={color}
+              onChange={(e) => setColor(e.target.value)}
+              required
+              pattern="^#[a-fA-F0-9]{6}$"
+              minLength={7}
+              maxLength={7}
+            />
+          </div>
         </div>
 
         {/* Card Size Selection */}
-        <label className="color-card--label" htmlFor="card-size">
-          Card Size
-        </label>
-        <select
-          className="color-card--select"
-          name="card-size"
-          id="card-size"
-          value={cardSize}
-          onChange={(e) => setCardSize(e.target.value as size)}
-        >
-          <option value="sm">Small</option>
-          <option value="md">Default</option>
-          <option value="lg">Large</option>
-          <option value="xl">X-Large</option>
-          <option value="xxl">XX-Large</option>
-        </select>
+        <div className="flex flex-col">
+          <label className="label mb-2" htmlFor="card-size">
+            Size
+          </label>
+          <select
+            className="color-card--select"
+            name="card-size"
+            id="card-size"
+            value={cardSize}
+            onChange={(e) => setCardSize(e.target.value as size)}
+          >
+            <option value="sm">Small</option>
+            <option value="md">Default</option>
+            <option value="lg">Large</option>
+            <option value="xl">X-Large</option>
+            <option value="xxl">XX-Large</option>
+          </select>
+        </div>
+
+        <fieldset className="m-0 p-0 border-none">
+          <legend className="label px-0 mb-2">Color Values</legend>
+          {[{ label: "Hex" }, { label: "RGB" }, { label: "HSL" }, { label: "HSB" }, { label: "CMYK" }].map(
+            ({ label }) => {
+              return (
+                <div className="flex items-center">
+                  <input className="checkbox m-0 mr-3" type="checkbox" id={label} />
+                  <label className="label" htmlFor={label}>
+                    {label}
+                  </label>
+                </div>
+              );
+            }
+          )}
+        </fieldset>
 
         {/* Use Color Api? */}
-        <label className="color-card--label" htmlFor="color-api">
-          Use Color API?
-        </label>
-        <input
-          className="color-card--check"
-          id="color-api"
-          type="checkbox"
-          checked={isApiSelected}
-          onChange={() => setIsApiSelected(!isApiSelected)}
-        />
+        <div className="flex flex-col">
+          <div className="flex items-center">
+            <input
+              className="checkbox m-0 mr-3"
+              id="color-api"
+              type="checkbox"
+              checked={isApiSelected}
+              onChange={() => setIsApiSelected(!isApiSelected)}
+            />
+            <label className="label" htmlFor="color-api">
+              Use custom name
+            </label>
+          </div>
+          <input type="text" className="input mt-2 w-full" />
+        </div>
       </div>
-      <button className="color-card--button" id="create" onClick={onRun}>
-        Create Card
-      </button>
-      <button className="color-card--button" id="cancel" onClick={onCancel}>
-        Cancel
-      </button>
+
+      <div className="flex gap-x-3">
+        <button className="btn-primary btn w-full" id="create" onClick={onRun}>
+          Create Card
+        </button>
+        <button className="btn-default btn w-full" id="cancel" onClick={onCancel}>
+          Cancel
+        </button>
+      </div>
     </form>
   );
 }
