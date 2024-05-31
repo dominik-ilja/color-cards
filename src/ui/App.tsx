@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { Button, Label, ListBox, ListBoxItem, Popover, Select, SelectValue } from "react-aria-components";
-import { ChevronDownIcon } from "lucide-react";
+import { ChevronDownIcon, XIcon } from "lucide-react";
 // import { ChevronDownIcon } from "lucide-react";
 
 type size = "sm" | "md" | "lg" | "xl" | "xxl";
@@ -11,8 +11,14 @@ export default function App() {
   const [cardSize, setCardSize] = useState<size>("md");
   const [color, setColor] = useState("#4f46e5");
   const [colorName, setColorName] = useState("");
+  const [selectWidth, setSelectWidth] = useState(0);
+  const selectRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    if (selectRef.current !== null) {
+      setSelectWidth(selectRef.current.offsetWidth);
+    }
+
     function listener(event: MessageEvent) {
       console.log(event);
       const { type, message } = event.data.pluginMessage;
@@ -64,9 +70,27 @@ export default function App() {
       <div className="flex flex-col gap-y-6 mb-8">
         {/* Color */}
         <div>
-          <label className="label mb-2" htmlFor="color">
-            Color
-          </label>
+          <div className="flex items-center justify-content-between">
+            <label className="label mb-2" htmlFor="color">
+              Color
+            </label>
+            <Select className="color-select" defaultSelectedKey={"Hex"}>
+              <Label hidden>Color Code</Label>
+              <Button className="color-select-button">
+                <SelectValue className="mr-2" />
+                <ChevronDownIcon aria-hidden="true" size={16} />
+              </Button>
+              <Popover className={"select-popover"}>
+                <ListBox className="select-listbox">
+                  <ListBoxItem className={"select-item"}>Hex</ListBoxItem>
+                  <ListBoxItem className={"select-item"}>RGB</ListBoxItem>
+                  <ListBoxItem className={"select-item"}>HSL</ListBoxItem>
+                  <ListBoxItem className={"select-item"}>HSB</ListBoxItem>
+                  <ListBoxItem className={"select-item"}>CMYK</ListBoxItem>
+                </ListBox>
+              </Popover>
+            </Select>
+          </div>
           <div className="flex items-center gap-x-1 w-full">
             <div className="color-picker-wrapper">
               <input
@@ -96,15 +120,15 @@ export default function App() {
         </div>
 
         {/* Card Size Selection */}
-        <div className="flex flex-col">
-          <Select className="select flex flex-col">
+        <div className="flex gap-x-3" style={{ alignItems: "end" }}>
+          <Select className="select flex flex-1 flex-col" ref={selectRef}>
             <Label className="mb-2">Size</Label>
             <Button className="select-button">
               <SelectValue />
               <ChevronDownIcon aria-hidden="true" size={16} />
             </Button>
-            <Popover className={"select-popover"}>
-              <ListBox>
+            <Popover className={"select-popover"} style={{ width: selectWidth }}>
+              <ListBox className="select-listbox">
                 <ListBoxItem className={"select-item"}>Small</ListBoxItem>
                 <ListBoxItem className={"select-item"}>Default</ListBoxItem>
                 <ListBoxItem className={"select-item"}>Large</ListBoxItem>
@@ -113,6 +137,11 @@ export default function App() {
               </ListBox>
             </Popover>
           </Select>
+          <div className="flex items-center gap-x-1" style={{ height: 32 }}>
+            <div>500</div>
+            <XIcon size={16} />
+            <div>500</div>
+          </div>
         </div>
 
         <fieldset className="m-0 p-0 border-none">
@@ -131,7 +160,7 @@ export default function App() {
           )}
         </fieldset>
 
-        {/* Use Color Api? */}
+        {/* Use Custom Name */}
         <div className="flex flex-col">
           <div className="flex items-center">
             <input
