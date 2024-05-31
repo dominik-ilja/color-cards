@@ -12,7 +12,7 @@
 * {
   box-sizing: border-box;
   font-family: var(--font-family);
-  outline-color: var(--color-primary);
+  /* outline-color: var(--color-primary); */
 }
 
 body {
@@ -50,6 +50,9 @@ body {
 .gap-y-4 {
   row-gap: 1rem;
 }
+.gap-y-6 {
+  row-gap: 1.5rem;
+}
 .m-0 {
   margin: 0;
 }
@@ -86,21 +89,30 @@ body {
   height: 2rem;
   padding: 0 0.75rem;
   font-weight: 500;
+  transition: background-color 0.2s;
+  cursor: pointer;
 }
 .btn-primary {
   background-color: #4f46e5;
   color: #ffffff;
+}
+.btn-primary:hover {
+  background-color: hsl(243, 75%, 50%);
 }
 .btn-default {
   border: 1px solid #d1d5db;
   background-color: #ffffff;
   color: #000000;
 }
+.btn-default:hover {
+  background-color: #f5f5f5;
+}
 .checkbox {
   width: 1rem;
   height: 1rem;
   border-radius: 2px;
   accent-color: var(--color-primary);
+  cursor: pointer;
 }
 
 .label {
@@ -144,6 +156,7 @@ body {
   color: var(--color-foreground-default);
 }
 .select-button {
+  cursor: pointer;
   background-color: #ffffff;
   display: flex;
   align-items: center;
@@ -159,4 +172,11 @@ body {
 }
 .select-popover {
   background-color: #ffffff;
+  width: calc(100% - 32px);
+  border: 1px solid var(--color-border-default);
+  padding: 0.5rem;
+  border-radius: 2px;
+}
+.select-item {
+  padding: 0.5rem;
 }

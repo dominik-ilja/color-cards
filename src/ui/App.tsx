@@ -61,7 +61,7 @@ export default function App() {
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
-      <div className="flex flex-col gap-y-4 mb-8">
+      <div className="flex flex-col gap-y-6 mb-8">
         {/* Color */}
         <div>
           <label className="label mb-2" htmlFor="color">
@@ -98,18 +98,18 @@ export default function App() {
         {/* Card Size Selection */}
         <div className="flex flex-col">
           <Select className="select flex flex-col">
-            <Label>Size</Label>
+            <Label className="mb-2">Size</Label>
             <Button className="select-button">
               <SelectValue />
               <ChevronDownIcon aria-hidden="true" size={16} />
             </Button>
             <Popover className={"select-popover"}>
               <ListBox>
-                <ListBoxItem>Small</ListBoxItem>
-                <ListBoxItem>Default</ListBoxItem>
-                <ListBoxItem>Large</ListBoxItem>
-                <ListBoxItem>x-large</ListBoxItem>
-                <ListBoxItem>2x-large</ListBoxItem>
+                <ListBoxItem className={"select-item"}>Small</ListBoxItem>
+                <ListBoxItem className={"select-item"}>Default</ListBoxItem>
+                <ListBoxItem className={"select-item"}>Large</ListBoxItem>
+                <ListBoxItem className={"select-item"}>x-large</ListBoxItem>
+                <ListBoxItem className={"select-item"}>2x-large</ListBoxItem>
               </ListBox>
             </Popover>
           </Select>
@@ -145,7 +145,7 @@ export default function App() {
               Use custom name
             </label>
           </div>
-          <input type="text" className="input mt-2 w-full" />
+          {isApiSelected && <input type="text" className="input mt-2 w-full" />}
         </div>
       </div>
 
