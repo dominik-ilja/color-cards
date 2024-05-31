@@ -6,6 +6,7 @@ module.exports = (env, argv) => {
   const isProd = argv.mode === "production";
 
   return {
+    // cache: false,
     devtool: isProd ? false : "inline-source-map",
     entry: {
       ui: "./src/ui/index.tsx",

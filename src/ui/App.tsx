@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Button, Label, ListBox, ListBoxItem, Popover, Select, SelectValue } from "react-aria-components";
+import { ChevronDownIcon } from "lucide-react";
+// import { ChevronDownIcon } from "lucide-react";
 
 type size = "sm" | "md" | "lg" | "xl" | "xxl";
 
@@ -94,22 +97,22 @@ export default function App() {
 
         {/* Card Size Selection */}
         <div className="flex flex-col">
-          <label className="label mb-2" htmlFor="card-size">
-            Size
-          </label>
-          <select
-            className="color-card--select"
-            name="card-size"
-            id="card-size"
-            value={cardSize}
-            onChange={(e) => setCardSize(e.target.value as size)}
-          >
-            <option value="sm">Small</option>
-            <option value="md">Default</option>
-            <option value="lg">Large</option>
-            <option value="xl">X-Large</option>
-            <option value="xxl">XX-Large</option>
-          </select>
+          <Select className="select flex flex-col">
+            <Label>Size</Label>
+            <Button className="select-button">
+              <SelectValue />
+              <ChevronDownIcon aria-hidden="true" size={16} />
+            </Button>
+            <Popover className={"select-popover"}>
+              <ListBox>
+                <ListBoxItem>Small</ListBoxItem>
+                <ListBoxItem>Default</ListBoxItem>
+                <ListBoxItem>Large</ListBoxItem>
+                <ListBoxItem>x-large</ListBoxItem>
+                <ListBoxItem>2x-large</ListBoxItem>
+              </ListBox>
+            </Popover>
+          </Select>
         </div>
 
         <fieldset className="m-0 p-0 border-none">
@@ -117,7 +120,7 @@ export default function App() {
           {[{ label: "Hex" }, { label: "RGB" }, { label: "HSL" }, { label: "HSB" }, { label: "CMYK" }].map(
             ({ label }) => {
               return (
-                <div className="flex items-center">
+                <div key={label} className="flex items-center">
                   <input className="checkbox m-0 mr-3" type="checkbox" id={label} />
                   <label className="label" htmlFor={label}>
                     {label}

@@ -12,6 +12,7 @@
 * {
   box-sizing: border-box;
   font-family: var(--font-family);
+  outline-color: var(--color-primary);
 }
 
 body {
@@ -99,6 +100,7 @@ body {
   width: 1rem;
   height: 1rem;
   border-radius: 2px;
+  accent-color: var(--color-primary);
 }
 
 .label {
@@ -131,4 +133,30 @@ body {
   border: 1px solid var(--color-border-default);
   padding: 0 0.75rem;
   border-radius: 2px;
+  outline: 1px solid transparent;
+}
+.input:hover,
+.input:focus-visible {
+  outline-color: var(--color-primary);
+}
+
+.select {
+  color: var(--color-foreground-default);
+}
+.select-button {
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 2rem;
+  border: 1px solid var(--color-border-default);
+  padding: 0 0.75rem;
+  border-radius: 2px;
+  outline: 1px solid transparent;
+}
+.select-button:focus {
+  outline: 1px solid var(--color-primary);
+}
+.select-popover {
+  background-color: #ffffff;
 }
