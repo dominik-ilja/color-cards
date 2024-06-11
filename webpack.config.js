@@ -22,7 +22,7 @@ module.exports = (env, argv) => {
         },
         {
           test: /\.css$/,
-          use: ["style-loader", "css-loader"],
+          use: ["style-loader", "css-loader", "postcss-loader"],
         },
         {
           test: /\.(png|jpg|gif|webp|svg)$/,
@@ -44,6 +44,10 @@ module.exports = (env, argv) => {
       new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/ui/]),
     ],
     resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "src"),
+        "~": __dirname,
+      },
       extensions: [".ts", ".tsx", ".js", ".jsx"],
     },
   };

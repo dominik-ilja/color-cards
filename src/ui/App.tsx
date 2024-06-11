@@ -1,8 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
+
 import axios from "axios";
-import { Button, Key, Label, ListBox, ListBoxItem, Popover, Select, SelectValue } from "react-aria-components";
+
+import {
+  Button,
+  Key,
+  Label,
+  ListBox,
+  ListBoxItem,
+  Popover,
+  Select,
+  SelectValue,
+} from "react-aria-components";
+
 import { ChevronDownIcon, XIcon } from "lucide-react";
-// import { ChevronDownIcon } from "lucide-react";
 
 type size = "sm" | "md" | "lg" | "xl" | "xxl";
 
@@ -24,12 +35,21 @@ function Buttons({ onCreate, onCancel }: ButtonsProps) {
   );
 }
 
-type ColorGroupProps = { color: string; setColor: React.Dispatch<React.SetStateAction<string>> };
+type ColorGroupProps = {
+  color: string;
+  setColor: React.Dispatch<React.SetStateAction<string>>;
+};
 
 function ColorGroup({ color, setColor }: ColorGroupProps) {
   const [selection, setSelection] = useState<Key>("Hex");
 
-  const options = [{ label: "Hex" }, { label: "RGB" }, { label: "HSL" }, { label: "HSB" }, { label: "CMYK" }];
+  const options = [
+    { label: "Hex" },
+    { label: "RGB" },
+    { label: "HSL" },
+    { label: "HSB" },
+    { label: "CMYK" },
+  ];
 
   let input: React.JSX.Element | null = null;
 
@@ -38,7 +58,7 @@ function ColorGroup({ color, setColor }: ColorGroupProps) {
       input = (
         <div className="relative">
           <span
-            className="font-mono text-muted"
+            className="text-muted font-mono"
             style={{
               position: "absolute",
               left: 8,
@@ -81,11 +101,15 @@ function ColorGroup({ color, setColor }: ColorGroupProps) {
 
   return (
     <div>
-      <div className="flex items-center justify-content-between">
+      <div className="justify-content-between flex items-center">
         <label className="label mb-2" htmlFor="color">
           Color
         </label>
-        <Select className="color-select" selectedKey={selection} onSelectionChange={(key) => setSelection(key)}>
+        <Select
+          className="color-select"
+          selectedKey={selection}
+          onSelectionChange={(key) => setSelection(key)}
+        >
           <Label hidden>Color Code</Label>
           <Button className="color-select-button">
             <SelectValue className="mr-2" />
@@ -102,7 +126,7 @@ function ColorGroup({ color, setColor }: ColorGroupProps) {
           </Popover>
         </Select>
       </div>
-      <div className="flex items-center gap-x-1 w-full">
+      <div className="flex w-full items-center gap-x-1">
         <div className="color-picker-wrapper">
           <input
             className="color-picker"
@@ -164,7 +188,10 @@ function SizeSelection() {
           </ListBox>
         </Popover>
       </Select>
-      <div className="flex items-center gap-x-1 text-muted" style={{ height: 32 }}>
+      <div
+        className="text-muted flex items-center gap-x-1"
+        style={{ height: 32 }}
+      >
         <div className="font-mono">500</div>
         <XIcon size={16} />
         <div className="font-mono">500</div>
@@ -175,9 +202,15 @@ function SizeSelection() {
 
 function ColorCodesCheckGroup() {
   return (
-    <fieldset className="m-0 p-0 border-none">
-      <legend className="label px-0 mb-2">Color Values</legend>
-      {[{ label: "Hex" }, { label: "RGB" }, { label: "HSL" }, { label: "HSB" }, { label: "CMYK" }].map(({ label }) => {
+    <fieldset className="m-0 border-none p-0">
+      <legend className="label mb-2 px-0">Color Values</legend>
+      {[
+        { label: "Hex" },
+        { label: "RGB" },
+        { label: "HSL" },
+        { label: "HSB" },
+        { label: "CMYK" },
+      ].map(({ label }) => {
         return (
           <div key={label} className="flex items-center">
             <input className="checkbox m-0 mr-3" type="checkbox" id={label} />
@@ -251,7 +284,9 @@ export default function App() {
         // API URL : https://www.thecolorapi.com/docs
 
         const hexCode = message.color.slice(1);
-        const { data } = await axios.get(`https://www.thecolorapi.com/id?hex=${hexCode}`);
+        const { data } = await axios.get(
+          `https://www.thecolorapi.com/id?hex=${hexCode}`,
+        );
 
         // update message values with data
         message.color = data.hex.value.toLowerCase();
@@ -270,8 +305,8 @@ export default function App() {
   }
 
   return (
-    <form onSubmit={(e) => e.preventDefault()}>
-      <div className="flex flex-col gap-y-6 mb-8">
+    <form className="p-4" onSubmit={(e) => e.preventDefault()}>
+      <div className="mb-8 flex flex-col gap-y-6">
         <ColorGroup color={color} setColor={setColor} />
 
         {/* We need a way to get the selection from this component */}

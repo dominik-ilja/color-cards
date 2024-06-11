@@ -1,18 +1,23 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "experimentalDecorators": true,
-    "esModuleInterop": true,
-    "jsx": "react",
     "allowJs": true,
-    "lib": ["ES6", "DOM"],
-    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true,
     "alwaysStrict": true,
-    "resolveJsonModule": true,
+    "baseUrl": "./",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "jsx": "react",
+    "lib": ["ES6", "DOM"],
     "module": "ES2015",
+    "moduleResolution": "Node",
     "noUnusedLocals": false,
     "outDir": "./dist",
+    "paths": {
+      "@/*": ["./src/*"],
+      "~/*": ["./*"]
+    },
     "removeComments": true,
+    "resolveJsonModule": true,
     "strict": true,
     "target": "ES6",
     "typeRoots": ["./node_modules/@types", "./node_modules/@figma"]
