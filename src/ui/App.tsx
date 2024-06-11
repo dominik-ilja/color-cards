@@ -14,6 +14,8 @@ import {
 } from "react-aria-components";
 
 import { ChevronDownIcon, XIcon } from "lucide-react";
+import Input from "./components/Input";
+// import { ChevronDownIcon } from "lucide-react";
 
 type size = "sm" | "md" | "lg" | "xl" | "xxl";
 
@@ -56,44 +58,55 @@ function ColorGroup({ color, setColor }: ColorGroupProps) {
   switch (selection) {
     case "Hex":
       input = (
-        <div className="relative">
-          <span
-            className="text-muted font-mono"
-            style={{
-              position: "absolute",
-              left: 8,
-              top: "50%",
-              transform: "translateY(-50%)",
-              width: 20,
-              height: 20,
-              textAlign: "center",
-              pointerEvents: "none",
-            }}
-          >
-            #
-          </span>
-          <input
-            className="input w-full font-mono"
-            style={{ paddingLeft: 28 }}
-            id="color-text"
-            type="text"
-            value={color}
-            onChange={(e) => setColor(e.target.value)}
-            required
-            pattern="^[a-fA-F0-9]{6}$"
-            minLength={6}
-            maxLength={6}
-          />
-        </div>
+        <Input
+          leadingIcon="#"
+          id="color-text"
+          type="text"
+          value={color}
+          onChange={(e) => setColor(e.target.value)}
+          required
+          pattern="^[a-fA-F0-9]{6}$"
+          minLength={3}
+          maxLength={6}
+        />
       );
       break;
     case "RGB":
+      input = (
+        <div className="flex gap-x-1">
+          <Input leadingIcon="R" />
+          <Input leadingIcon="G" />
+          <Input leadingIcon="B" />
+        </div>
+      );
       break;
     case "HSL":
+      input = (
+        <div className="flex gap-x-1">
+          <Input leadingIcon="H" trailingIcon="%" />
+          <Input leadingIcon="S" trailingIcon="%" />
+          <Input leadingIcon="L" trailingIcon="%" />
+        </div>
+      );
       break;
     case "HSB":
+      input = (
+        <div className="flex gap-x-1">
+          <Input leadingIcon="H" trailingIcon="%" />
+          <Input leadingIcon="S" trailingIcon="%" />
+          <Input leadingIcon="B" trailingIcon="%" />
+        </div>
+      );
       break;
     case "CMYK":
+      input = (
+        <div className="flex gap-x-1">
+          <Input leadingIcon="C" trailingIcon="%" />
+          <Input leadingIcon="M" trailingIcon="%" />
+          <Input leadingIcon="Y" trailingIcon="%" />
+          <Input leadingIcon="K" trailingIcon="%" />
+        </div>
+      );
       break;
     default:
       break;
@@ -227,7 +240,7 @@ function ColorCodesCheckGroup() {
 type CustomNameProps = { onCheck: Function; onTextChange: Function };
 
 function CustomName({ onCheck, onTextChange }: CustomNameProps) {
-  const [isApiSelected, setIsApiSelected] = useState(false);
+  const [isApiSelected, setIsApiSelected] = useState(true);
 
   return (
     <div className="flex flex-col">
@@ -305,8 +318,8 @@ export default function App() {
   }
 
   return (
-    <form className="p-4" onSubmit={(e) => e.preventDefault()}>
-      <div className="mb-8 flex flex-col gap-y-6">
+    <form className="m-0 p-4" onSubmit={(e) => e.preventDefault()}>
+      <div className="flex flex-col gap-y-6">
         <ColorGroup color={color} setColor={setColor} />
 
         {/* We need a way to get the selection from this component */}

@@ -1,5 +1,5 @@
 // This shows the HTML page in "ui.html".
-figma.showUI(__html__, { width: 400, height: 500 });
+figma.showUI(__html__, { width: 400, height: 468 });
 
 figma.ui.onmessage = ({ type, message }) => {
   if (type === "generate") {
