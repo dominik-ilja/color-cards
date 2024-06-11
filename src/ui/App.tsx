@@ -1,23 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
-
 import axios from "axios";
+import React, { useEffect, useState } from "react";
 
-import {
-  Button,
-  Key,
-  Label,
-  ListBox,
-  ListBoxItem,
-  Popover,
-  Select,
-  SelectValue,
-} from "react-aria-components";
+import ColorCodesCheckGroup from "@/ui/components/ColorCodesCheckGroup";
+import ColorGroup from "@/ui/components/ColorGroup";
+import CustomName from "@/ui/components/CustomName";
+import SizeSelection, { size } from "@/ui/components/SizeSelection";
 
-import { ChevronDownIcon, XIcon } from "lucide-react";
-import Input from "./components/Input";
-// import { ChevronDownIcon } from "lucide-react";
-
-type size = "sm" | "md" | "lg" | "xl" | "xxl";
+import Button from "./components/Button";
 
 type ButtonsProps = {
   onCreate: React.MouseEventHandler<HTMLButtonElement>;
@@ -27,236 +16,17 @@ type ButtonsProps = {
 function Buttons({ onCreate, onCancel }: ButtonsProps) {
   return (
     <div className="flex gap-x-3">
-      <button className="btn-primary btn w-full" id="create" onClick={onCreate}>
+      <Button
+        className="w-full"
+        id="create"
+        onClick={onCreate}
+        variant="primary"
+      >
         Create
-      </button>
+      </Button>
       <button className="btn-default btn w-full" id="cancel" onClick={onCancel}>
         Close
       </button>
-    </div>
-  );
-}
-
-type ColorGroupProps = {
-  color: string;
-  setColor: React.Dispatch<React.SetStateAction<string>>;
-};
-
-function ColorGroup({ color, setColor }: ColorGroupProps) {
-  const [selection, setSelection] = useState<Key>("Hex");
-
-  const options = [
-    { label: "Hex" },
-    { label: "RGB" },
-    { label: "HSL" },
-    { label: "HSB" },
-    { label: "CMYK" },
-  ];
-
-  let input: React.JSX.Element | null = null;
-
-  switch (selection) {
-    case "Hex":
-      input = (
-        <Input
-          leadingIcon="#"
-          id="color-text"
-          type="text"
-          value={color}
-          onChange={(e) => setColor(e.target.value)}
-          required
-          pattern="^[a-fA-F0-9]{6}$"
-          minLength={3}
-          maxLength={6}
-        />
-      );
-      break;
-    case "RGB":
-      input = (
-        <div className="flex gap-x-1">
-          <Input leadingIcon="R" />
-          <Input leadingIcon="G" />
-          <Input leadingIcon="B" />
-        </div>
-      );
-      break;
-    case "HSL":
-      input = (
-        <div className="flex gap-x-1">
-          <Input leadingIcon="H" trailingIcon="%" />
-          <Input leadingIcon="S" trailingIcon="%" />
-          <Input leadingIcon="L" trailingIcon="%" />
-        </div>
-      );
-      break;
-    case "HSB":
-      input = (
-        <div className="flex gap-x-1">
-          <Input leadingIcon="H" trailingIcon="%" />
-          <Input leadingIcon="S" trailingIcon="%" />
-          <Input leadingIcon="B" trailingIcon="%" />
-        </div>
-      );
-      break;
-    case "CMYK":
-      input = (
-        <div className="flex gap-x-1">
-          <Input leadingIcon="C" trailingIcon="%" />
-          <Input leadingIcon="M" trailingIcon="%" />
-          <Input leadingIcon="Y" trailingIcon="%" />
-          <Input leadingIcon="K" trailingIcon="%" />
-        </div>
-      );
-      break;
-    default:
-      break;
-  }
-
-  return (
-    <div>
-      <div className="justify-content-between flex items-center">
-        <label className="label mb-2" htmlFor="color">
-          Color
-        </label>
-        <Select
-          className="color-select"
-          selectedKey={selection}
-          onSelectionChange={(key) => setSelection(key)}
-        >
-          <Label hidden>Color Code</Label>
-          <Button className="color-select-button">
-            <SelectValue className="mr-2" />
-            <ChevronDownIcon aria-hidden="true" size={16} />
-          </Button>
-          <Popover className={"select-popover"}>
-            <ListBox className="select-listbox">
-              {options.map(({ label }) => (
-                <ListBoxItem key={label} id={label} className={"select-item"}>
-                  {label}
-                </ListBoxItem>
-              ))}
-            </ListBox>
-          </Popover>
-        </Select>
-      </div>
-      <div className="flex w-full items-center gap-x-1">
-        <div className="color-picker-wrapper">
-          <input
-            className="color-picker"
-            id="color"
-            type="color"
-            value={color}
-            onChange={(e) => {
-              setColor(e.target.value.toLowerCase());
-            }}
-          />
-        </div>
-
-        {/* Client Side Validation of Input */}
-        <div className="flex-1">{input}</div>
-      </div>
-    </div>
-  );
-}
-
-function SizeSelection() {
-  const [selectWidth, setSelectWidth] = useState(0);
-  const selectRef = useRef<HTMLDivElement | null>(null);
-  const [selection, setSelection] = useState<Key>("Default");
-
-  const options = [
-    { label: "Small" },
-    { label: "Default" },
-    { label: "Large" },
-    { label: "x-Large" },
-    { label: "2x-Large" },
-  ];
-
-  useEffect(() => {
-    if (selectRef.current !== null) {
-      setSelectWidth(selectRef.current.offsetWidth);
-    }
-  }, []);
-
-  return (
-    <div className="flex gap-x-3" style={{ alignItems: "end" }}>
-      <Select
-        className="select flex flex-1 flex-col"
-        ref={selectRef}
-        selectedKey={selection}
-        onSelectionChange={(key) => setSelection(key)}
-      >
-        <Label className="mb-2">Size</Label>
-        <Button className="select-button">
-          <SelectValue />
-          <ChevronDownIcon aria-hidden="true" size={16} />
-        </Button>
-        <Popover className={"select-popover"} style={{ width: selectWidth }}>
-          <ListBox className="select-listbox">
-            {options.map(({ label }) => (
-              <ListBoxItem id={label} key={label} className={"select-item"}>
-                {label}
-              </ListBoxItem>
-            ))}
-          </ListBox>
-        </Popover>
-      </Select>
-      <div
-        className="text-muted flex items-center gap-x-1"
-        style={{ height: 32 }}
-      >
-        <div className="font-mono">500</div>
-        <XIcon size={16} />
-        <div className="font-mono">500</div>
-      </div>
-    </div>
-  );
-}
-
-function ColorCodesCheckGroup() {
-  return (
-    <fieldset className="m-0 border-none p-0">
-      <legend className="label mb-2 px-0">Color Values</legend>
-      {[
-        { label: "Hex" },
-        { label: "RGB" },
-        { label: "HSL" },
-        { label: "HSB" },
-        { label: "CMYK" },
-      ].map(({ label }) => {
-        return (
-          <div key={label} className="flex items-center">
-            <input className="checkbox m-0 mr-3" type="checkbox" id={label} />
-            <label className="label" htmlFor={label}>
-              {label}
-            </label>
-          </div>
-        );
-      })}
-    </fieldset>
-  );
-}
-
-type CustomNameProps = { onCheck: Function; onTextChange: Function };
-
-function CustomName({ onCheck, onTextChange }: CustomNameProps) {
-  const [isApiSelected, setIsApiSelected] = useState(true);
-
-  return (
-    <div className="flex flex-col">
-      <div className="flex items-center">
-        <input
-          className="checkbox m-0 mr-3"
-          id="color-api"
-          type="checkbox"
-          checked={isApiSelected}
-          onChange={() => setIsApiSelected(!isApiSelected)}
-        />
-        <label className="label" htmlFor="color-api">
-          Use custom name
-        </label>
-      </div>
-      {isApiSelected && <input type="text" className="input mt-2 w-full" />}
     </div>
   );
 }

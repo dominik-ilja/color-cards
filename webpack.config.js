@@ -6,7 +6,7 @@ module.exports = (env, argv) => {
   const isProd = argv.mode === "production";
 
   return {
-    // cache: false,
+    cache: false,
     devtool: isProd ? false : "inline-source-map",
     entry: {
       ui: "./src/ui/index.tsx",
@@ -33,6 +33,7 @@ module.exports = (env, argv) => {
     output: {
       filename: "[name].js",
       path: path.resolve(__dirname, "dist"),
+      publicPath: "/dist/",
     },
     plugins: [
       new HtmlWebpackPlugin({
