@@ -7,13 +7,22 @@
 
 :root {
   --border-radius-full: 9999px;
+
+  --color-white: #fff;
+  --color-primary-lightest: #ecebfe;
+  --color-primary: #4f46e5;
+  --color-primary-dark: #2920df;
+
   --color-border-default: #d1d5db;
+  --color-border-primary: var(--color-primary);
+
+  --color-background-primary-lightest: var(--color-primary-lightest);
+
   --color-foreground-default: #111827;
   --color-foreground-muted: #6b7280;
-  --color-white: #fff;
-  --color-primary: #4f46e5;
-  --color-fg-on-primary: var(--color-white);
-  --color-primary-dark: #2920df;
+  --color-foreground-primary: var(--color-primary);
+  --color-foreground-on-primary: var(--color-white);
+
   --font-sans-serif: "Inter", sans-seif;
   --font-monospace: "IBM Plex Mono", monospace;
 }
@@ -117,10 +126,6 @@
 .input-trailing-icon {
   right: 4px;
 }
-
-.select {
-  color: var(--color-foreground-default);
-}
 .select-button {
   cursor: pointer;
   background-color: #ffffff;
@@ -169,7 +174,4 @@
   padding: 4px;
   cursor: pointer;
   outline-color: var(--color-primary);
-}
-.color-select-button:hover {
-  color: var(--color-primary);
 }

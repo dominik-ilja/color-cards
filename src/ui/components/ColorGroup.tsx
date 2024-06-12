@@ -100,7 +100,7 @@ export default function ColorGroup({ color, setColor }: ColorGroupProps) {
           onSelectionChange={(key) => setSelection(key)}
         >
           <Label hidden>Color Code</Label>
-          <Button className="color-select-button">
+          <Button className="color-select-button hfv:text-fg-primary">
             <SelectValue className="mr-2" />
             <ChevronDownIcon aria-hidden="true" size={16} />
           </Button>

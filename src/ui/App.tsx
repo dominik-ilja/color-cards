@@ -24,9 +24,9 @@ function Buttons({ onCreate, onCancel }: ButtonsProps) {
       >
         Create
       </Button>
-      <button className="btn-default btn w-full" id="cancel" onClick={onCancel}>
-        Close
-      </button>
+      <Button className="w-full" id="cancel" onClick={onCancel}>
+      Close
+      </Button>
     </div>
   );
 }
@@ -88,7 +88,7 @@ export default function App() {
   }
 
   return (
-    <form className="m-0 p-4" onSubmit={(e) => e.preventDefault()}>
+    <form className="p-4 m-0" onSubmit={(e) => e.preventDefault()}>
       <div className="flex flex-col gap-y-6">
         <ColorGroup color={color} setColor={setColor} />
 

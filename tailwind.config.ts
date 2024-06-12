@@ -6,18 +6,29 @@ const selectorPlugin = plugin(({ addVariant }) => {
   addVariant("hfv", ["&:hover", "&:focus-visible"]);
 });
 
+const borderColor = {
+  default: "var(--color-border-default)",
+  primary: "var(--color-border-primary)",
+};
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{html,js,ts,tsx}"],
   theme: {
+    backgroundColor: {
+      "primary-lightest": "var(--color-background-primary-lightest)",
+      primary: "var(--color-primary)",
+      "primary-dark": "var(--color-primary-dark)",
+    },
+    borderColor: {
+      ...borderColor,
+    },
+    outlineColor: { ...borderColor },
     textColor: {
       "fg-default": "var(--color-foreground-default)",
       "fg-muted": "var(--color-foreground-muted)",
-      "fg-on-primary": "var(--color-fg-on-primary)",
-    },
-    backgroundColor: {
-      primary: "var(--color-primary)",
-      "primary-dark": "var(--color-primary-dark)",
+      "fg-primary": "var(--color-foreground-primary)",
+      "fg-on-primary": "var(--color-foreground-on-primary)",
     },
     extend: {},
   },

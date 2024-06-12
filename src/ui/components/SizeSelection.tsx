@@ -35,13 +35,13 @@ export default function SizeSelection() {
   return (
     <div className="flex gap-x-3" style={{ alignItems: "end" }}>
       <Select
-        className="select flex flex-1 flex-col"
+        className="flex flex-1 flex-col text-fg-default"
         ref={selectRef}
         selectedKey={selection}
         onSelectionChange={(key) => setSelection(key)}
       >
         <Label className="mb-2">Size</Label>
-        <Button className="select-button">
+        <Button className="select-button hfv:outline-primary">
           <SelectValue />
           <ChevronDownIcon aria-hidden="true" size={16} />
         </Button>
