@@ -11,14 +11,15 @@ import {
   SelectValue,
 } from "react-aria-components";
 
+import CmykInput from "./ColorGroup/CmykInput";
 import Input from "./Input";
 
 type ColorGroupProps = {
-  color: string;
-  setColor: React.Dispatch<React.SetStateAction<string>>;
+  color: string; // Hex string
+  onChange: any;
 };
 
-export default function ColorGroup({ color, setColor }: ColorGroupProps) {
+export default function ColorGroup({ color, onChange }: ColorGroupProps) {
   const [selection, setSelection] = useState<Key>("Hex");
 
   const options = [
@@ -39,7 +40,7 @@ export default function ColorGroup({ color, setColor }: ColorGroupProps) {
           id="color-text"
           type="text"
           value={color}
-          onChange={(e) => setColor(e.target.value)}
+          onChange={(e) => onChange(e.target.value)}
           required
           pattern="^[a-fA-F0-9]{6}$"
           minLength={3}
@@ -76,12 +77,13 @@ export default function ColorGroup({ color, setColor }: ColorGroupProps) {
       break;
     case "CMYK":
       input = (
-        <div className="flex gap-x-1">
-          <Input leadingIcon="C" trailingIcon="%" />
-          <Input leadingIcon="M" trailingIcon="%" />
-          <Input leadingIcon="Y" trailingIcon="%" />
-          <Input leadingIcon="K" trailingIcon="%" />
-        </div>
+        <CmykInput
+          value={color}
+          onChange={(value) => {
+            console.log(value);
+            onChange(value);
+          }}
+        />
       );
       break;
     default:
@@ -121,9 +123,15 @@ export default function ColorGroup({ color, setColor }: ColorGroupProps) {
             className="color-picker"
             id="color"
             type="color"
-            value={color}
+            value={`#${color}`}
             onChange={(e) => {
-              setColor(e.target.value.toLowerCase());
+              const value = e.target.value.toLowerCase();
+
+              if (value.startsWith("#")) {
+                onChange(value.slice(1));
+              } else {
+                onChange(value);
+              }
             }}
           />
         </div>

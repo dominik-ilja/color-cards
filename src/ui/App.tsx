@@ -25,7 +25,7 @@ function Buttons({ onCreate, onCancel }: ButtonsProps) {
         Create
       </Button>
       <Button className="w-full" id="cancel" onClick={onCancel}>
-      Close
+        Close
       </Button>
     </div>
   );
@@ -88,9 +88,15 @@ export default function App() {
   }
 
   return (
-    <form className="p-4 m-0" onSubmit={(e) => e.preventDefault()}>
+    <form className="m-0 p-4" onSubmit={(e) => e.preventDefault()}>
       <div className="flex flex-col gap-y-6">
-        <ColorGroup color={color} setColor={setColor} />
+        <ColorGroup
+          color={color}
+          onChange={(value: any) => {
+            console.log(value);
+            setColor(value);
+          }}
+        />
 
         {/* We need a way to get the selection from this component */}
         <SizeSelection />
