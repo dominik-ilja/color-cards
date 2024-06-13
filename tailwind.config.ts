@@ -9,6 +9,7 @@ const selectorPlugin = plugin(({ addVariant }) => {
 const borderColor = {
   default: "var(--color-border-default)",
   primary: "var(--color-border-primary)",
+  transparent: "transparent",
 };
 
 /** @type {import('tailwindcss').Config} */
