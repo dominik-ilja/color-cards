@@ -1,5 +1,5 @@
 # Color Cards
-
+change
 ![](assets/Color%20Cards%20Art.png)
 
 
@@ -11,17 +11,17 @@ Add color cards to your figma designs. This allows you to build a pallete or sho
 ## How to Use
 
 ### Color Name
-Add a name for your card in the "Color Name" text box. Next, click on the color box to select a color or enter in a hex color code in the box next to it. 
+Add a name for your card in the "Color Name" text box. Next, click on the color box to select a color or enter in a hex color code in the box next to it.
 
 ### Color Value
 **Note** : The Hex code must include the hash `#` at the beginning and must have six characters following the hash.  The input is case insensitive. So, both uppercase and lowercase letters are valid to be used. An invalid input will cause the card to not be generated.
 
-Ex : 
+Ex :
 
 ```
 // Valid Inputs
 #adc3ec
-#ADC3EC 
+#ADC3EC
 
 //Invalid Inputs
 #fff
