@@ -1,11 +1,13 @@
 import React from "react";
 import { CheckboxGroup, Label } from "react-aria-components";
 
+import type { ColorValues } from "@/constants";
 import Checkbox from "@/ui/components/Checkbox";
+import type { Colors } from "@/ui/utilities/createColors";
 
 type Props = {
-  colors: any;
-  items: { label: string; id: string }[];
+  colors: Colors;
+  items: ColorValues;
   onChange: (selected: string[]) => void;
   value: string[];
 };

@@ -1,6 +1,5 @@
 import {
   MESSAGE_TYPES,
-  type MessageCreate,
   PLUGIN_DIMENSIONS,
   type PluginMessage,
 } from "@/constants";
@@ -16,6 +15,8 @@ figma.ui.onmessage = async ({
   type,
   message,
 }: PluginMessage["pluginMessage"]) => {
+  console.log(message);
+
   if (type === MESSAGE_TYPES.ADJUST_SIZE) {
     message.expanded
       ? figma.ui.resize(
@@ -27,7 +28,6 @@ figma.ui.onmessage = async ({
           PLUGIN_DIMENSIONS.HEIGHT.DEFAULT,
         );
   } else if (type === MESSAGE_TYPES.CREATE) {
-    console.log(message);
     const { colors, name, selection, size } = message;
     await createCard(colors, name, selection, size);
     figma.notify("Generated Card");

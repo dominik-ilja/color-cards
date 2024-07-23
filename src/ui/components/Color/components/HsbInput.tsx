@@ -2,6 +2,7 @@ import { HSV } from "color-convert/conversions";
 import React from "react";
 import { TextField } from "react-aria-components";
 
+import type { StrHSB } from "@/ui/App";
 import { clamp } from "@/ui/utilities/clamp";
 
 import Input from "./Input";
@@ -13,8 +14,6 @@ const MAX_BRIGHTNESS = 100;
 const HUE_INDEX = 0;
 const SATURATION_INDEX = 1;
 const BRIGHTNESS_INDEX = 2;
-
-export type StrHSB = [string, string, string];
 
 type Props = {
   channels: HSV;

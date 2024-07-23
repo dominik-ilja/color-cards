@@ -2,6 +2,7 @@ import { RGB } from "color-convert/conversions";
 import React from "react";
 import { TextField } from "react-aria-components";
 
+import { StrRGB } from "@/ui/App";
 import { clamp } from "@/ui/utilities/clamp";
 
 import Input from "./Input";
@@ -11,8 +12,6 @@ const MAX_RGB = 255;
 const RED_INDEX = 0;
 const GREEN_INDEX = 1;
 const BLUE_INDEX = 2;
-
-export type StrRGB = [string, string, string];
 
 type Props = {
   channels: RGB;

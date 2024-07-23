@@ -2,6 +2,7 @@ import { CMYK } from "color-convert/conversions";
 import React from "react";
 import { TextField } from "react-aria-components";
 
+import { StrCMYK } from "@/ui/App";
 import { clamp } from "@/ui/utilities/clamp";
 
 import Input from "./Input";
@@ -12,8 +13,6 @@ const CYAN_INDEX = 0;
 const MAGENTA_INDEX = 1;
 const YELLOW_INDEX = 2;
 const BLACK_INDEX = 3;
-
-export type StrCMYK = [string, string, string, string];
 
 type Props = {
   channels: CMYK;

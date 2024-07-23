@@ -1,14 +1,15 @@
 import React from "react";
 
+import { COLOR_CODES, type ColorCodesValue } from "@/constants";
 import type { Display } from "@/ui/App";
-import { createColors } from "@/ui/utilities/createColors";
+import { type Colors, createColors } from "@/ui/utilities/createColors";
 
 type Props = {
-  colors: any;
+  colors: Colors;
   id: string;
-  onDisplay: any;
-  onChange: any;
-  selection: any;
+  onChange: (colors: Colors) => void;
+  onDisplay: (display: Display) => void;
+  selection: ColorCodesValue;
 };
 
 export default function ColorSwatch({
@@ -29,11 +30,10 @@ export default function ColorSwatch({
           const hex = e.target.value.substring(1);
           const colors = createColors({
             value: hex,
-            type: "hex",
+            type: COLOR_CODES.HEX,
           });
 
-          type ColorKeys = keyof typeof colors;
-          onDisplay(colors[selection as ColorKeys] as Display);
+          onDisplay(colors[selection] as Display);
           onChange(colors);
         }}
       />

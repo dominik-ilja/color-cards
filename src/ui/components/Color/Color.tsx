@@ -1,8 +1,9 @@
 import "./Color.css";
 
 import React from "react";
-import { type Key, Label } from "react-aria-components";
+import { Label } from "react-aria-components";
 
+import type { ColorCodesValue } from "@/constants";
 import type { Display } from "@/ui/App";
 
 import ColorInput from "./components/ColorInput";
@@ -15,8 +16,8 @@ type Props = {
   colors: any;
   onChange: (colors: any) => void;
   onDisplay: (display: Display) => void;
-  onSelectionChange: (key: Key) => void;
-  selection: Key;
+  onSelectionChange: (key: ColorCodesValue) => void;
+  selection: ColorCodesValue;
   display: Display;
   selectionItems: { label: string; id: string }[];
 };

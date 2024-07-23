@@ -2,7 +2,6 @@ import { CheckIcon, ChevronDownIcon } from "lucide-react";
 import React from "react";
 import {
   Button as AriaButton,
-  type Key,
   Label,
   ListBox,
   ListBoxItem,
@@ -11,9 +10,11 @@ import {
   SelectValue,
 } from "react-aria-components";
 
+import type { ColorCodesValue } from "@/constants";
+
 type Props = {
-  onSelectionChange: (key: Key) => void;
-  selection: Key;
+  onSelectionChange: (key: ColorCodesValue) => void;
+  selection: ColorCodesValue;
   selectionItems: { label: string; id: string }[];
 };
 
@@ -23,7 +24,10 @@ export default function ColorSelect({
   selectionItems,
 }: Props) {
   return (
-    <Select selectedKey={selection} onSelectionChange={onSelectionChange}>
+    <Select
+      selectedKey={selection}
+      onSelectionChange={(key) => onSelectionChange(key as ColorCodesValue)}
+    >
       <Label hidden>Color Code</Label>
       <AriaButton className="select flex items-center gap-x-8 text-fg hf:text-fg-primary">
         <SelectValue className="mr-2" />

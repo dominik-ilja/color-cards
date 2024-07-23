@@ -18,7 +18,7 @@ export default function CustomName(props: Props) {
         isSelected={props.showInput}
         onChange={props.onShowInputChange}
       >
-        Use Custom Name?
+        Use Custom Name
       </Checkbox>
       <TextField
         aria-label="Custom Name"

@@ -1,21 +1,22 @@
 import React from "react";
-import type { Key } from "react-aria";
 
+import { COLOR_CODES, type ColorCodesValue } from "@/constants";
 import type { Display } from "@/ui/App";
-import { createColors } from "@/ui/utilities/createColors";
+import { StrCMYK, StrHSB, StrHSL, StrRGB } from "@/ui/App";
+import { type Colors, createColors } from "@/ui/utilities/createColors";
 
-import CmykInput, { type StrCMYK } from "./CmykInput";
+import CmykInput from "./CmykInput";
 import HexInput from "./HexInput";
-import HsbInput, { type StrHSB } from "./HsbInput";
-import HslInput, { type StrHSL } from "./HslInput";
-import RgbInput, { type StrRGB } from "./RgbInput";
+import HsbInput from "./HsbInput";
+import HslInput from "./HslInput";
+import RgbInput from "./RgbInput";
 
 type Props = {
-  colors: any;
+  colors: Colors;
   display: Display;
-  onChange: any;
-  onDisplay: any;
-  selection: Key;
+  onChange: (colors: Colors) => void;
+  onDisplay: (display: Display) => void;
+  selection: ColorCodesValue;
 };
 
 export default function ColorInput({
@@ -25,13 +26,13 @@ export default function ColorInput({
   onDisplay,
   selection,
 }: Props) {
-  if (selection === "hex" && typeof display === "string") {
+  if (selection === COLOR_CODES.HEX && typeof display === "string") {
     return (
       <HexInput
         displayValue={display}
         value={colors.hex}
         onChange={(hex) => {
-          onChange(createColors({ value: hex, type: "hex" }));
+          onChange(createColors({ value: hex, type: COLOR_CODES.HEX }));
         }}
         onDisplay={onDisplay}
       />
@@ -40,52 +41,56 @@ export default function ColorInput({
 
   const displayIsArray = Array.isArray(display);
 
-  if (selection === "rgb" && displayIsArray && display.length === 3) {
+  if (selection === COLOR_CODES.RGB && displayIsArray && display.length === 3) {
     return (
       <RgbInput
         channels={colors.rgb}
         displayValue={display.map(String) as StrRGB}
         onChange={(rgb) => {
-          onChange(createColors({ value: rgb, type: "rgb" }));
+          onChange(createColors({ value: rgb, type: COLOR_CODES.RGB }));
         }}
         onDisplay={onDisplay}
       />
     );
   }
 
-  if (selection === "hsl" && displayIsArray && display.length === 3) {
+  if (selection === COLOR_CODES.HSL && displayIsArray && display.length === 3) {
     return (
       <HslInput
         channels={colors.hsl}
         displayValue={display.map(String) as StrHSL}
         onChange={(hsl) => {
-          onChange(createColors({ value: hsl, type: "hsl" }));
+          onChange(createColors({ value: hsl, type: COLOR_CODES.HSL }));
         }}
         onDisplay={onDisplay}
       />
     );
   }
 
-  if (selection === "hsb" && displayIsArray && display.length === 3) {
+  if (selection === COLOR_CODES.HSB && displayIsArray && display.length === 3) {
     return (
       <HsbInput
         channels={colors.hsb}
         displayValue={display.map(String) as StrHSB}
         onChange={(hsb) => {
-          onChange(createColors({ value: hsb, type: "hsb" }));
+          onChange(createColors({ value: hsb, type: COLOR_CODES.HSB }));
         }}
         onDisplay={onDisplay}
       />
     );
   }
 
-  if (selection === "cmyk" && displayIsArray && display.length === 4) {
+  if (
+    selection === COLOR_CODES.CMYK &&
+    displayIsArray &&
+    display.length === 4
+  ) {
     return (
       <CmykInput
         channels={colors.cmyk}
         displayValue={display.map(String) as StrCMYK}
         onChange={(cmyk) => {
-          onChange(createColors({ value: cmyk, type: "cmyk" }));
+          onChange(createColors({ value: cmyk, type: COLOR_CODES.CMYK }));
         }}
         onDisplay={onDisplay}
       />

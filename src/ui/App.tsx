@@ -6,6 +6,8 @@ import { Key } from "react-aria-components";
 import {
   COLOR_CODES,
   COLOR_CODES_ORDER,
+  COLOR_VALUES,
+  type ColorCodesValue,
   MESSAGE_TYPES,
   type MessageAdjustSize,
   type MessageClose,
@@ -21,15 +23,12 @@ import SizeSelect, {
 } from "@/ui/components/SizeSelect/SizeSelect";
 import { createColors } from "@/ui/utilities/createColors";
 
-export type Display = HEX | RGB | HSL | HSV | CMYK;
+export type StrRGB = [string, string, string];
+export type StrHSL = [string, string, string];
+export type StrHSB = [string, string, string];
+export type StrCMYK = [string, string, string, string];
 
-const COLOR_VALUES = [
-  { label: "Hex", id: COLOR_CODES.HEX },
-  { label: "RGB", id: COLOR_CODES.RGB },
-  { label: "HSL", id: COLOR_CODES.HSL },
-  { label: "HSB", id: COLOR_CODES.HSB },
-  { label: "CMYK", id: COLOR_CODES.CMYK },
-];
+export type Display = HEX | StrRGB | StrHSL | StrHSB | StrCMYK;
 
 export default function App() {
   const [sizeSelection, setSizeSelection] = useState(SIZE_DEFAULT);
@@ -37,7 +36,7 @@ export default function App() {
   const [showCustomName, setShowCustomName] = useState(false);
   const [customName, setCustomName] = useState("");
   const [display, setDisplay] = useState<Display>("");
-  const [selection, setSelection] = useState<Key>("hex");
+  const [selection, setSelection] = useState<ColorCodesValue>("hex");
   const [colors, setColors] = useState(
     createColors({ value: "4F46E5", type: "hex" }),
   );
@@ -85,7 +84,7 @@ export default function App() {
             size: sizeSelection.id,
           },
         },
-      } as MessageCreate,
+      },
       "*",
     );
   }
@@ -94,13 +93,12 @@ export default function App() {
       {
         pluginMessage: {
           type: MESSAGE_TYPES.CLOSE,
+          message: null,
         },
-      } as MessageClose,
+      },
       "*",
     );
   }
-
-  type ColorKeys = keyof typeof colors;
 
   return (
     <main className="flex min-h-screen items-start justify-center">
@@ -114,7 +112,11 @@ export default function App() {
           onDisplay={setDisplay}
           onSelectionChange={(key) => {
             setSelection(key);
-            setDisplay(colors[key as ColorKeys] as Display);
+
+            const value = colors[key];
+            Array.isArray(value)
+              ? setDisplay(value.map(String) as Display)
+              : setDisplay(value);
           }}
         />
 
@@ -143,7 +145,7 @@ export default function App() {
                   type: MESSAGE_TYPES.ADJUST_SIZE,
                   message: { expanded: show },
                 },
-              } as MessageAdjustSize,
+              },
               "*",
             );
           }}

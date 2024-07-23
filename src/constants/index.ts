@@ -1,3 +1,5 @@
+import type { Colors } from "@/ui/utilities/createColors";
+
 export const COLOR_CODES = {
   HEX: "hex",
   RGB: "rgb",
@@ -6,6 +8,10 @@ export const COLOR_CODES = {
   CMYK: "cmyk",
 } as const;
 
+export type ColorCode = typeof COLOR_CODES;
+export type ColorCodesKey = keyof ColorCode;
+export type ColorCodesValue = ColorCode[ColorCodesKey];
+
 export const COLOR_CODES_ORDER = [
   COLOR_CODES.HEX,
   COLOR_CODES.RGB,
@@ -13,6 +19,16 @@ export const COLOR_CODES_ORDER = [
   COLOR_CODES.HSB,
   COLOR_CODES.CMYK,
 ] as const;
+
+export const COLOR_VALUES: { label: string; id: ColorCodesValue }[] = [
+  { label: "Hex", id: COLOR_CODES.HEX },
+  { label: "RGB", id: COLOR_CODES.RGB },
+  { label: "HSL", id: COLOR_CODES.HSL },
+  { label: "HSB", id: COLOR_CODES.HSB },
+  { label: "CMYK", id: COLOR_CODES.CMYK },
+] as const;
+
+export type ColorValues = typeof COLOR_VALUES;
 
 export const MESSAGE_TYPES = {
   ADJUST_SIZE: "ADJUST_SIZE",
@@ -59,7 +75,7 @@ export type MessageCreate = {
   pluginMessage: {
     type: (typeof MESSAGE_TYPES)["CREATE"];
     message: {
-      colors: any; // todo - update type
+      colors: Colors;
       name: string;
       selection: string[];
       size: string;
