@@ -1,47 +1,35 @@
 # Color Cards
 
-![](assets/Color%20Cards%20Art.png)
+![](assets/banner.png)
 
 
 ## Description
 Add color cards to your figma designs. This allows you to build a pallete or showcase colors for inspiration. You can generate custom names using "The Color API" for easily adding your new colors to your library.
 
-![](assets/color-card-plugin.png)
-
 ## How to Use
 
-### Color Name
-Add a name for your card in the "Color Name" text box. Next, click on the color box to select a color or enter in a hex color code in the box next to it. 
+The steps to using the plugin are straight forward:
 
-### Color Value
-**Note** : The Hex code must include the hash `#` at the beginning and must have six characters following the hash.  The input is case insensitive. So, both uppercase and lowercase letters are valid to be used. An invalid input will cause the card to not be generated.
+1. **Select the color you want to use.** You can use the dropdown above the color input to change the color code input and type out your code. You could also use the color swatch to select a color in a more visual way. Your colors will be kept in sync!
+2. **Select your size.** When you select a size other then default, the card will be scaled up or down. This is as if you were using the Scale tool in Figma. Below, is a table that shows you the scaling values used.
+3. **Select your codes.** The codes that you check will be added to the card.
+4. **Use a custom name.** Check "Use Custom Name" to name your card. By default, the plugin uses the [Color API](https://www.thecolorapi.com/) so you don't have to worry about coming up with a name.
+5. Click "Create" to make your new card!
 
-Ex : 
+### Size Scaling
 
-```
-// Valid Inputs
-#adc3ec
-#ADC3EC 
+These are the values used when scaling the default card up or down.
 
-//Invalid Inputs
-#fff
-e9dfea
-#00000
-```
+| Size     | Scale |
+| -------- | ----- |
+| Small    | 0.8x  |
+| Large    | 1.2x  |
+| x-Large  | 1.4x  |
+| 2x-Large | 1.6x  |
 
-### Card Size
-The card size select will determine the demensions of your card. The default card size is medium. There are five sizes in total :
+### Additional
 
-| Size     | Height  | Width  |
-| -------- | ------- | ------ |
-| Small    | 200 px  | 130 px |
-| Medium   | 400 px  | 260 px |
-| Large    | 600 px  | 390 px |
-| X-Large  | 800 px  | 520 px |
-| XX-Large | 1000 px | 650 px |
-
-### Color API
-If you check the "Use Color API?" box, a custom name will be pulled from the color API. **This will overwrite the name in the "Color Name" input**.
+All inputs are setup to keep the values you input within a valid range. Invalid characters are set to `0`.
 
 ## Tags
 - color
