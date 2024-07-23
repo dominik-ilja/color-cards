@@ -3,14 +3,21 @@ import type { CMYK, HEX, HSL, HSV, RGB } from "color-convert/conversions";
 import React, { useEffect, useState } from "react";
 import { Key } from "react-aria-components";
 
-import ColorCodesCheckGroup from "@/ui/components/ColorCodesCheckGroup";
-import ColorGroup from "@/ui/components/ColorGroup";
+import {
+  MESSAGE_TYPES,
+  type MessageAdjustSize,
+  type MessageClose,
+  type MessageCreate,
+} from "@/constants";
+import Button from "@/ui/components/Button";
+import Color from "@/ui/components/Color";
 import ColorValues from "@/ui/components/ColorValues";
 import CustomName from "@/ui/components/CustomName";
-import SizeSelection, { size } from "@/ui/components/SizeSelection";
+import SizeSelect, {
+  SIZE_DEFAULT,
+  SIZE_OPTIONS,
+} from "@/ui/components/SizeSelect/SizeSelect";
 import { createColors } from "@/ui/utilities/createColors";
-
-import Button from "./components/Button";
 
 export type Display = HEX | RGB | HSL | HSV | CMYK;
 
@@ -22,18 +29,6 @@ const COLOR_VALUES = [
   { label: "CMYK", id: "cmyk" },
 ];
 
-export type SizeOption = {
-  name: string;
-  id: string;
-  size: number;
-};
-
-export const SIZE_DEFAULT: SizeOption = {
-  name: "Default",
-  id: "default",
-  size: 500,
-};
-
 type ButtonsProps = {
   onCreate: React.MouseEventHandler<HTMLButtonElement>;
   onCancel: React.MouseEventHandler<HTMLButtonElement>;
@@ -41,7 +36,7 @@ type ButtonsProps = {
 
 function Buttons({ onCreate, onCancel }: ButtonsProps) {
   return (
-    <div className="flex gap-x-3">
+    <div className="gap-x-3 flex">
       <Button
         className="w-full"
         id="create"
@@ -58,11 +53,6 @@ function Buttons({ onCreate, onCancel }: ButtonsProps) {
 }
 
 export default function App() {
-  const [cardSize, setCardSize] = useState<size>("md");
-  const [color, setColor] = useState("4f46e5");
-  const [colorName, setColorName] = useState("");
-  // const [customName, setCustomName] = useState<string>("");
-
   const [sizeSelection, setSizeSelection] = useState(SIZE_DEFAULT);
   const [colorCodes, setColorCodes] = useState<string[]>(["hex"]);
   const [showCustomName, setShowCustomName] = useState(false);
@@ -85,57 +75,75 @@ export default function App() {
   }, []);
 
   async function onRun() {
-    if (!/^#[a-fA-F0-9]{6}$/.test(color)) {
-      console.log("Invalid color");
-      return;
-    }
+    let name = customName.trim();
 
-    const message = {
-      color: color.toLowerCase(),
-      colorName,
-      useAPI: customName,
-      size: cardSize,
-      data: null,
-    };
-
-    if (message.useAPI) {
+    if (!showCustomName || name.length === 0) {
       try {
-        // API URL : https://www.thecolorapi.com/docs
-
-        const hexCode = message.color.slice(1);
+        const hex = colors.hex;
         const { data } = await axios.get(
-          `https://www.thecolorapi.com/id?hex=${hexCode}`,
+          `https://www.thecolorapi.com/id?hex=${hex}`,
         );
-
-        // update message values with data
-        message.color = data.hex.value.toLowerCase();
-        message.colorName = data.name.value;
-        message.data = data;
+        name = data.name.value;
       } catch (error) {
-        console.dir(error);
-        message.data = null;
+        console.log(error);
+        name = "Color Card";
+        figma.notify(`Failed to retrieve card name. Using default ${name}`);
       }
     }
 
-    parent.postMessage({ pluginMessage: { type: "run" } }, "*");
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: MESSAGE_TYPES.CREATE,
+          message: {
+            colors,
+            name,
+            selection: colorCodes,
+            size: {
+              width: sizeSelection.size,
+              height: sizeSelection.size,
+            },
+          },
+        },
+      } as MessageCreate,
+      "*",
+    );
   }
   function onCancel() {
-    parent.postMessage({ pluginMessage: { type: "cancel" } }, "*");
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: MESSAGE_TYPES.CLOSE,
+        },
+      } as MessageClose,
+      "*",
+    );
   }
 
+  type ColorKeys = keyof typeof colors;
+
   return (
-    <form className="m-0 p-4" onSubmit={(e) => e.preventDefault()}>
-      <div className="flex flex-col gap-y-6">
-        <ColorGroup
-          color={color}
-          onChange={(value: any) => {
-            console.log(value);
-            setColor(value);
+    <main className="flex min-h-screen items-start justify-center">
+      <div className="w-full border border-muted p-16 shadow-2xl">
+        <Color
+          colors={colors}
+          display={display}
+          selection={selection}
+          selectionItems={COLOR_VALUES}
+          onChange={(colors) => setColors(colors)}
+          onDisplay={setDisplay}
+          onSelectionChange={(key) => {
+            setSelection(key);
+            setDisplay(colors[key as ColorKeys] as Display);
           }}
         />
 
-        {/* We need a way to get the selection from this component */}
-        <SizeSelection />
+        <SizeSelect
+          items={SIZE_OPTIONS}
+          onSelectionChange={setSizeSelection}
+          selection={sizeSelection}
+        />
+
         <ColorValues
           colors={colors}
           items={COLOR_VALUES}
@@ -143,10 +151,37 @@ export default function App() {
           onChange={setColorCodes}
         />
 
-        <CustomName onCheck={() => {}} onTextChange={() => {}} />
+        <CustomName
+          showInput={showCustomName}
+          value={customName}
+          onChange={setCustomName}
+          onShowInputChange={(show) => {
+            setShowCustomName(show);
+            parent.postMessage(
+              {
+                pluginMessage: {
+                  type: MESSAGE_TYPES.ADJUST_SIZE,
+                  message: { expanded: show },
+                },
+              } as MessageAdjustSize,
+              "*",
+            );
+          }}
+        />
 
-        <Buttons onCreate={onRun} onCancel={onCancel} />
+        <div className="mb-auto flex gap-x-12">
+          <Button
+            className="w-full justify-center"
+            variant="primary"
+            onClick={onRun}
+          >
+            Create
+          </Button>
+          <Button className="w-full justify-center" onClick={onCancel}>
+            Close
+          </Button>
+        </div>
       </div>
-    </form>
+    </main>
   );
 }

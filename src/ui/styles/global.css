@@ -5,6 +5,24 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap");
 
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  ::selection {
+    background-color: var(--color-background-primary-default);
+    color: var(--color-foreground-on-primary);
+  }
+
+  *:focus-visible {
+    outline-color: var(--color-foreground-primary);
+    outline-style: solid;
+    outline-width: 2px;
+    outline-offset: 2px;
+  }
+}
+
 :root {
   --z-index-sticky: 100;
   --z-index-docked: 5;
@@ -124,165 +142,27 @@
   --color-background-layer-0-1: var(--color-background-layer-0);
 }
 
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-input[type="number"] {
-  -moz-appearance: textfield;
-}
-
-.btn {
-  border-radius: 6px;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.875rem;
-  height: 2rem;
-  padding: 0 0.75rem;
-  font-weight: 500;
-  transition: background-color 0.2s;
-  cursor: pointer;
-  outline-color: var(--color-primary);
-}
-.btn-primary {
-  background-color: #4f46e5;
-  color: #ffffff;
-}
-.btn-primary:hover,
-.btn-primary:focus-visible {
-  background-color: #2920df;
-}
-.btn-default {
-  border: 1px solid #d1d5db;
-  background-color: #ffffff;
-  color: #000000;
-}
-.btn-default:hover,
-.btn-default:focus-visible {
-  background-color: #f5f5f5;
-}
-/* .checkbox {
-  width: 1rem;
-  height: 1rem;
-  border-radius: 2px;
-  accent-color: var(--color-primary);
-  cursor: pointer;
-  border-color: var(--color-primary);
-}
-.checkbox:focus-visible {
-  outline-color: var(--color-primary);
-} */
-
-.label {
-  font-size: 1rem;
-  color: var(--color-foreground-default);
-  display: inline-block;
-}
-
-.color-picker-wrapper {
-  height: 1.75rem;
-  width: 1.75rem;
-  border-radius: var(--border-radius-full);
+html {
   overflow: hidden;
-  position: relative;
-}
-.color-picker-wrapper:focus-within {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
-}
-.color-picker {
-  background-color: transparent;
-  width: 3rem;
-  height: 3rem;
-  position: absolute;
-  top: -5px;
-  left: -5px;
-  border: none;
 }
 
 .input {
-  height: 2rem;
-  border: 1px solid var(--color-border-default);
-  padding: 0 0.75rem;
-  border-radius: 2px;
-  outline: 1px solid transparent;
-  font-size: 1rem;
-}
-.input:hover,
-.input:focus-visible {
-  outline-color: var(--color-primary);
-}
-
-.input-icon {
-  position: absolute;
-  width: 16px;
-  text-align: center;
-  pointer-events: none;
-  font-size: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.input-leading-icon {
-  left: 4px;
-  top: 50%;
-  transform: translateY(-50%);
-}
-.input-trailing-icon {
-  right: 4px;
-}
-.select-button {
-  cursor: pointer;
-  background-color: #ffffff;
   display: flex;
+  height: 40px;
   align-items: center;
   justify-content: space-between;
-  height: 2rem;
+  border-radius: var(--border-radius-default);
   border: 1px solid var(--color-border-default);
-  padding: 0 0.75rem;
-  border-radius: 2px;
-  font-size: 1rem;
-  outline: 1px solid transparent;
+  padding-inline: 0.5rem;
+  transition-property: border-color;
+  transition-duration: var(--animation-duration-short);
+  width: 100%;
 }
-.select-button:focus {
-  outline: 1px solid var(--color-primary);
+.input[data-focus-visible],
+.input[data-hovered] {
+  border-color: var(--color-border-primary);
 }
-.select-popover {
-  background-color: #ffffff;
-  /* width: calc(100% - 32px); */
-  border: 1px solid var(--color-border-default);
-  padding: 0.5rem;
-  border-radius: 2px;
-}
-.select-item {
-  padding: 0.5rem;
-  cursor: pointer;
-  outline-color: transparent;
-  /* font-size: 0.875rem; */
-}
-.select-item:hover {
-  background-color: #f5f5f5;
-}
-.select-item:focus-visible {
-  background-color: #f5f5f5;
-  /* outline-color: var(--color-primary); */
-}
-.select-listbox:focus-visible {
+/* .input:focus-visible,
+.select[data-focused]:not([data-focus-visible]) {
   outline: none;
-}
-
-.color-select-button {
-  display: flex;
-  align-items: center;
-  background-color: transparent;
-  border: none;
-  padding: 4px;
-  cursor: pointer;
-  outline-color: var(--color-primary);
-}
+} */

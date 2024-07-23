@@ -11,9 +11,8 @@ const Button: ButtonComponent = React.forwardRef(
     {
       as,
       children,
-      className,
-      size = "default",
       variant = "default",
+      className,
       ...props
     }: ButtonProps<Component>,
     ref: PolymorphicRef<Component>,
@@ -22,11 +21,13 @@ const Button: ButtonComponent = React.forwardRef(
 
     const buttonClasses = twMerge(
       clsx(
-        "flex h-10 items-center justify-center rounded-md border px-6 py-2 font-medium outline-offset-2 transition-colors hfv:outline-primary",
+        "flex items-center rounded border px-16 py-8 font-medium transition-colors",
         variant === "primary" &&
-          "border-transparent bg-primary text-fg-on-primary hfv:bg-primary-dark",
+          "border-transparent text-fg-on-primary hf:bg-primary-hover bg-primary",
         variant === "default" &&
-          "bg-default border-default hfv:border-primary hfv:bg-primary-lightest hfv:text-fg-primary",
+          "hf:text-fg-primary border-default bg-default hf:border-primary",
+        variant === "inverse" &&
+          "hf:text-fg-on-primary text-fg-on-inverse border border-on-inverse bg-inverse hf:border-primary hf:bg-primary",
       ),
       className,
     );
