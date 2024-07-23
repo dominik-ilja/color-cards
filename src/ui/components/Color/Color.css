@@ -1,0 +1,20 @@
+.color-picker-wrapper {
+  min-height: 36px;
+  min-width: 36px;
+  border-radius: var(--border-radius-full);
+  overflow: hidden;
+  position: relative;
+}
+.color-picker-wrapper:focus-within {
+  outline: 2px solid var(--color-primary-default);
+  outline-offset: 2px;
+}
+.color-picker {
+  background-color: transparent;
+  width: 3rem;
+  height: 3rem;
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  border: none;
+}
