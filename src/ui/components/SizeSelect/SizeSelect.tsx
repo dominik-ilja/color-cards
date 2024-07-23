@@ -44,7 +44,7 @@ export default function SizeSelect({
   return (
     <div className="mb-20 flex items-end">
       <Select
-        className="select flex w-full flex-col text-fg"
+        className="select text-fg flex w-full flex-col"
         selectedKey={selection.id}
         onSelectionChange={(key) =>
           onSelectionChange(items.find((item) => item.id === key)!)
@@ -56,11 +56,11 @@ export default function SizeSelect({
           <ChevronDownIcon size={20} />
         </Button>
 
-        <Popover className="min-w-[--trigger-width] rounded border border-default bg-layer-0 p-8">
+        <Popover className="bg-layer-0 min-w-[--trigger-width] rounded border border-default p-8">
           <ListBox className="outline-none" items={items}>
             {(item) => (
               <ListBoxItem
-                className="cursor-pointer rounded p-8 text-fg outline-none transition-colors hf:bg-[#ECEBFE] hf:text-fg-primary"
+                className="text-fg hf:bg-[#ECEBFE] hf:text-fg-primary cursor-pointer rounded p-8 outline-none transition-colors"
                 id={item.id}
                 textValue={item.name}
               >
@@ -77,8 +77,6 @@ export default function SizeSelect({
           </ListBox>
         </Popover>
       </Select>
-
-      {/* <SizeDisplay selection={selection} /> */}
     </div>
   );
 }

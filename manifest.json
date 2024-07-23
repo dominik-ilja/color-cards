@@ -9,5 +9,10 @@
     "figma"
   ],
   "ui": "dist/ui.html",
-  "documentAccess": "dynamic-page"
+  "documentAccess": "dynamic-page",
+  "networkAccess": {
+    "allowedDomains": [
+      "https://www.thecolorapi.com/"
+    ]
+  }
 }
