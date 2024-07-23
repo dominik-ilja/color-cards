@@ -9,7 +9,7 @@ type Props = InputProps & {
 function Icon({ name, className = "" }: { name: string; className?: string }) {
   return (
     <span
-      className={`pointer-events-none absolute top-1/2 w-16 -translate-y-1/2 text-center font-monospace text-sm text-fg-muted ${className}`}
+      className={`pointer-events-none absolute top-[14px] w-16 text-center font-monospace text-sm leading-none text-fg-muted ${className}`}
     >
       {name}
     </span>

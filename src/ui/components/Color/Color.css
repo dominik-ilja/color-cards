@@ -1,6 +1,6 @@
 .color-picker-wrapper {
-  min-height: 1.75rem;
-  min-width: 1.75rem;
+  min-height: 36px;
+  min-width: 36px;
   border-radius: var(--border-radius-full);
   overflow: hidden;
   position: relative;

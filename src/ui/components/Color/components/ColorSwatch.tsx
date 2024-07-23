@@ -20,7 +20,7 @@ export default function ColorSwatch({
   selection,
 }: Props) {
   return (
-    <div className="color-picker-wrapper border-default">
+    <div className="color-picker-wrapper border border-muted">
       <input
         className="color-picker"
         id={id}
