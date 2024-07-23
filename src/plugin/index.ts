@@ -2,6 +2,7 @@ import {
   MESSAGE_TYPES,
   type MessageCreate,
   PLUGIN_DIMENSIONS,
+  type PluginMessage,
 } from "@/constants";
 
 import { createCard } from "./createCard";
@@ -11,7 +12,10 @@ figma.showUI(__html__, {
   height: PLUGIN_DIMENSIONS.HEIGHT.DEFAULT,
 });
 
-figma.ui.onmessage = async ({ type, message }) => {
+figma.ui.onmessage = async ({
+  type,
+  message,
+}: PluginMessage["pluginMessage"]) => {
   if (type === MESSAGE_TYPES.ADJUST_SIZE) {
     message.expanded
       ? figma.ui.resize(
@@ -24,13 +28,8 @@ figma.ui.onmessage = async ({ type, message }) => {
         );
   } else if (type === MESSAGE_TYPES.CREATE) {
     console.log(message);
-
-    const { colors, name, selection, size } =
-      message as MessageCreate["pluginMessage"]["message"];
-
-    // init(color, colorName, size);
+    const { colors, name, selection, size } = message;
     await createCard(colors, name, selection, size);
-
     figma.notify("Generated Card");
   } else if (type === MESSAGE_TYPES.CLOSE) {
     figma.closePlugin("Plugin Closed");

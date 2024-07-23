@@ -10,41 +10,25 @@ import {
   SelectValue,
 } from "react-aria-components";
 
+import { SIZES } from "@/constants";
+
 export type SizeOption = {
   name: string;
   id: string;
-  size: number;
 };
 
 export const SIZE_DEFAULT: SizeOption = {
   name: "Default",
-  id: "default",
-  size: 500,
+  id: SIZES.DEFAULT,
 };
 
 export const SIZE_OPTIONS: SizeOption[] = [
-  { name: "Small", id: "small", size: 250 },
+  { name: "Small", id: SIZES.SMALL },
   SIZE_DEFAULT,
-  { name: "Large", id: "large", size: 750 },
-  { name: "x-Large", id: "x-large", size: 1000 },
-  { name: "2x-Large", id: "2xl-large", size: 1250 },
+  { name: "Large", id: SIZES.LARGE },
+  { name: "x-Large", id: SIZES.XLARGE },
+  { name: "2x-Large", id: SIZES["2XLARGE"] },
 ];
-
-type SizeDisplayProps = {
-  selection: SizeOption;
-};
-
-function SizeDisplay({ selection }: SizeDisplayProps) {
-  return (
-    <div className="flex items-center justify-center text-fg-muted">
-      <div className="grid h-40 place-items-center p-8">{selection.size}</div>
-      <div>
-        <XIcon size={20} />
-      </div>
-      <div className="grid h-40 place-items-center p-8">{selection.size}</div>
-    </div>
-  );
-}
 
 type SizeSelectProps = {
   selection: SizeOption;
@@ -94,7 +78,7 @@ export default function SizeSelect({
         </Popover>
       </Select>
 
-      <SizeDisplay selection={selection} />
+      {/* <SizeDisplay selection={selection} /> */}
     </div>
   );
 }

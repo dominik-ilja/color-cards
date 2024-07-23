@@ -1,3 +1,8 @@
+import { SIZES } from "@/constants";
+
+const FONT_INTER_BOLD = { family: "Inter", style: "Bold" };
+const FONT_FIRA_MONO_REGULAR = { family: "Fira Mono", style: "Regular" };
+
 function setPadding(
   el: FrameNode,
   top: number,
@@ -11,11 +16,21 @@ function setPadding(
   el.paddingLeft = left;
 }
 
+async function loadFonts() {
+  const fonts = [
+    { family: "Inter", style: "Regular" },
+    FONT_INTER_BOLD,
+    FONT_FIRA_MONO_REGULAR,
+  ];
+
+  await Promise.all(fonts.map((f) => figma.loadFontAsync(f)));
+}
+
 export async function createCard(
   colors: any,
   name: string,
   selection: string[],
-  size: { width: number; height: number },
+  size: string,
 ) {
   console.log(arguments);
   const fillColor: Paint[] = [
@@ -29,9 +44,7 @@ export async function createCard(
   ];
   const hasCmyk = selection.find((s) => s === "cmyk");
 
-  await figma.loadFontAsync({ family: "Inter", style: "Regular" });
-  await figma.loadFontAsync({ family: "Inter", style: "Bold" });
-  await figma.loadFontAsync({ family: "Fira Mono", style: "Regular" });
+  await loadFonts();
 
   // Create main frame
   const frame = figma.createFrame();
@@ -67,8 +80,9 @@ export async function createCard(
   cardName.characters = name;
   cardName.fontSize = 16;
   cardName.fills = textDefaultColor;
-  cardName.fontName = { family: "Inter", style: "Bold" };
+  cardName.fontName = FONT_INTER_BOLD;
 
+  // Create color code text
   const codeContainer = figma.createFrame();
   codeContainer.layoutMode = "VERTICAL";
   codeContainer.counterAxisSizingMode = "AUTO";
@@ -91,17 +105,31 @@ export async function createCard(
     el.autoRename = false;
     el.characters = `${label} ${value}`;
     el.fills = textSecondaryColor;
-    el.fontName = { family: "Fira Mono", style: "Regular" };
+    el.fontName = FONT_FIRA_MONO_REGULAR;
     el.fontSize = 12;
     el.name = code;
 
     return el;
   });
 
-  // Put pieces together
   innerContainer.appendChild(swatch);
   innerContainer.appendChild(cardName);
   codes.forEach((el) => codeContainer.appendChild(el));
   if (selection.length > 0) innerContainer.appendChild(codeContainer);
   frame.appendChild(innerContainer);
+
+  switch (size) {
+    case SIZES.SMALL:
+      frame.rescale(0.8);
+      break;
+    case SIZES.LARGE:
+      frame.rescale(1.2);
+      break;
+    case SIZES.XLARGE:
+      frame.rescale(1.4);
+      break;
+    case SIZES["2XLARGE"]:
+      frame.rescale(1.6);
+      break;
+  }
 }

@@ -33,9 +33,7 @@ export default function ColorValues({ colors, items, onChange, value }: Props) {
             {label}{" "}
             <div className="text-sm text-fg-muted">
               {format(
-                entries.find(([key, value]) => key === id)![1] as
-                  | string
-                  | number[],
+                entries.find(([key]) => key === id)![1] as string | number[],
               )}
             </div>
           </Checkbox>

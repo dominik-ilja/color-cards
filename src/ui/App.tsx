@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import { Key } from "react-aria-components";
 
 import {
+  COLOR_CODES,
+  COLOR_CODES_ORDER,
   MESSAGE_TYPES,
   type MessageAdjustSize,
   type MessageClose,
@@ -22,35 +24,12 @@ import { createColors } from "@/ui/utilities/createColors";
 export type Display = HEX | RGB | HSL | HSV | CMYK;
 
 const COLOR_VALUES = [
-  { label: "Hex", id: "hex" },
-  { label: "RGB", id: "rgb" },
-  { label: "HSL", id: "hsl" },
-  { label: "HSB", id: "hsb" },
-  { label: "CMYK", id: "cmyk" },
+  { label: "Hex", id: COLOR_CODES.HEX },
+  { label: "RGB", id: COLOR_CODES.RGB },
+  { label: "HSL", id: COLOR_CODES.HSL },
+  { label: "HSB", id: COLOR_CODES.HSB },
+  { label: "CMYK", id: COLOR_CODES.CMYK },
 ];
-
-type ButtonsProps = {
-  onCreate: React.MouseEventHandler<HTMLButtonElement>;
-  onCancel: React.MouseEventHandler<HTMLButtonElement>;
-};
-
-function Buttons({ onCreate, onCancel }: ButtonsProps) {
-  return (
-    <div className="gap-x-3 flex">
-      <Button
-        className="w-full"
-        id="create"
-        onClick={onCreate}
-        variant="primary"
-      >
-        Create
-      </Button>
-      <Button className="w-full" id="cancel" onClick={onCancel}>
-        Close
-      </Button>
-    </div>
-  );
-}
 
 export default function App() {
   const [sizeSelection, setSizeSelection] = useState(SIZE_DEFAULT);
@@ -87,7 +66,7 @@ export default function App() {
       } catch (error) {
         console.log(error);
         name = "Color Card";
-        figma.notify(`Failed to retrieve card name. Using default ${name}`);
+        figma.notify(`Failed to retrieve card name. Using default: "${name}"`);
       }
     }
 
@@ -98,11 +77,12 @@ export default function App() {
           message: {
             colors,
             name,
-            selection: colorCodes,
-            size: {
-              width: sizeSelection.size,
-              height: sizeSelection.size,
-            },
+            selection: colorCodes.sort((a, b) => {
+              const aIdx = COLOR_CODES_ORDER.findIndex((v) => v === a);
+              const bIdx = COLOR_CODES_ORDER.findIndex((v) => v === b);
+              return aIdx - bIdx;
+            }),
+            size: sizeSelection.id,
           },
         },
       } as MessageCreate,
