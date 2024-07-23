@@ -50,7 +50,7 @@ export default function SizeSelect({
           onSelectionChange(items.find((item) => item.id === key)!)
         }
       >
-        <Label>Size</Label>
+        <Label className="mb-8">Size</Label>
         <Button className="input">
           <SelectValue />
           <ChevronDownIcon size={20} />
