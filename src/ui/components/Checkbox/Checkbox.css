@@ -1,0 +1,43 @@
+.checkbox {
+  display: flex;
+  align-items: center;
+  column-gap: var(--spacing-8);
+  cursor: pointer;
+}
+.checkbox-input {
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--border-radius-default);
+  background-color: var(--color-background-layer-0);
+  transition-property: background-color, border-color;
+  transition-duration: var(--animation-duration-short);
+  height: 1.25rem;
+  width: 1.25rem;
+  display: grid;
+  place-items: center;
+}
+.checkbox-input svg {
+  display: none;
+  height: 1rem;
+  width: 1rem;
+  color: var(--color-foreground-on-primary);
+}
+
+/* States */
+.checkbox:hover .checkbox-input,
+.checkbox[data-focus-visible] .checkbox-input {
+  border-color: var(--color-border-primary);
+}
+.checkbox[data-selected] .checkbox-input {
+  border-color: var(--color-border-primary);
+  background-color: var(--color-background-primary-default);
+}
+.checkbox[data-selected]:hover .checkbox-input {
+  background-color: var(--color-primary-hover);
+}
+.checkbox[data-focus-visible] .checkbox-input {
+  outline-offset: 2px;
+  outline: 2px solid var(--color-border-primary);
+}
+.checkbox[data-selected] .checkbox-input svg {
+  display: initial;
+}

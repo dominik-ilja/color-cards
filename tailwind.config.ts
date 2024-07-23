@@ -1,37 +1,53 @@
 import type { Config } from "tailwindcss";
-import plugin from "tailwindcss/plugin";
 
-const selectorPlugin = plugin(({ addVariant }) => {
-  addVariant("not-last-child", "&:not(:last-child)");
-  addVariant("hfv", ["&:hover", "&:focus-visible"]);
-});
+import selectorPlugin from "./configuration/tailwind/selectorPlugin";
+import {
+  animationDuration,
+  borderRadius,
+  borderWidth,
+  breakpoints,
+  colorBackground,
+  colorBorder,
+  colorForeground,
+  dimensionHeight,
+  fontFamily,
+  fontLeading,
+  fontSize,
+  fontWeight,
+  spacing,
+  transparency,
+  zIndex,
+} from "./configuration/tailwind/tokens/default.tokens";
+export { breakpoints } from "./configuration/tailwind/tokens/default.tokens";
 
-const borderColor = {
-  default: "var(--color-border-default)",
-  primary: "var(--color-border-primary)",
-  transparent: "transparent",
-};
-
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: ["./src/**/*.{html,js,ts,tsx}"],
+const config: Config = {
+  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
-    backgroundColor: {
-      "primary-lightest": "var(--color-background-primary-lightest)",
-      primary: "var(--color-primary)",
-      "primary-dark": "var(--color-primary-dark)",
+    extend: {
+      height: { ...dimensionHeight },
+      spacing: { header: dimensionHeight.header },
     },
-    borderColor: {
-      ...borderColor,
-    },
-    outlineColor: { ...borderColor },
+    backgroundColor: { ...colorBackground },
+    borderColor: { ...colorBorder },
+    borderWidth: { ...borderWidth },
+    borderRadius: { ...borderRadius },
+    fill: { ...colorBackground, ...colorForeground },
+    fontFamily: { ...fontFamily },
+    fontSize: { ...fontSize },
+    fontWeight: { ...fontWeight },
+    lineHeight: { ...fontLeading },
+    opacity: { ...transparency },
+    screens: { ...breakpoints },
+    spacing: { ...spacing },
     textColor: {
-      "fg-default": "var(--color-foreground-default)",
-      "fg-muted": "var(--color-foreground-muted)",
-      "fg-primary": "var(--color-foreground-primary)",
-      "fg-on-primary": "var(--color-foreground-on-primary)",
+      fg: {
+        ...colorForeground,
+      },
     },
-    extend: {},
+    transitionDuration: { ...animationDuration },
+    zIndex: { ...zIndex },
   },
   plugins: [selectorPlugin],
-} as Config;
+};
+
+export default config;

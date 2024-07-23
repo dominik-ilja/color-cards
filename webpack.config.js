@@ -25,6 +25,20 @@ module.exports = (env, argv) => {
           use: ["style-loader", "css-loader", "postcss-loader"],
         },
         {
+          test: /\.module.css$/,
+          use: [
+            "style-loader",
+            {
+              loader: "css-loader",
+              options: {
+                module: true,
+                esModule: false,
+              },
+            },
+            "postcss-loader",
+          ],
+        },
+        {
           test: /\.(png|jpg|gif|webp|svg)$/,
           use: "url-loader",
         },
